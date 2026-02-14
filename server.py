@@ -439,6 +439,13 @@ def parse_int_field(payload: dict, field: str, min_value: int = 0) -> int:
 # HTTP Handler
 # ---------------------------------------------------------------------------
 
+BLOCKED_PREFIXES = (
+    "/.git", "/.env", "/.venv", "/__pycache__",
+    "/server.py", "/render.yaml", "/requirements.txt",
+    "/DB_SETUP.md", "/.gitignore", "/data/",
+)
+
+
 class QuizHandler(SimpleHTTPRequestHandler):
     subscribers = set()
     subscribers_lock = threading.Lock()
@@ -452,12 +459,28 @@ class QuizHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         super().end_headers()
 
+    def _is_blocked(self, path: str) -> bool:
+        return any(path.startswith(p) for p in BLOCKED_PREFIXES)
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.end_headers()
 
     def do_GET(self):
         parsed = urlparse(self.path)
+
+        # Redirect root to the main game page
+        if parsed.path in ("", "/"):
+            self.send_response(302)
+            self.send_header("Location", "/Zoho-Logo2.html")
+            self.end_headers()
+            return
+
+        # Block sensitive files
+        if self._is_blocked(parsed.path):
+            self.send_json(403, {"error": "Forbidden"})
+            return
+
         if parsed.path == "/api/results/stream":
             return self.handle_results_stream()
         if parsed.path == "/api/results":

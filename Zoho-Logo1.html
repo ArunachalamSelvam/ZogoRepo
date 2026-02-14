@@ -682,7 +682,18 @@
             }
 
             .logo-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .logo-option {
+                padding: 10px;
+                min-height: auto;
+            }
+
+            .logo-option img {
+                max-width: 120px;
+                max-height: 80px;
             }
 
             .results-stats {
@@ -695,6 +706,22 @@
 
             .btn {
                 width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .logo-grid {
+                gap: 6px;
+            }
+
+            .logo-option {
+                padding: 6px;
+                border-width: 2px;
+            }
+
+            .logo-option img {
+                max-width: 90px;
+                max-height: 60px;
             }
         }
 
@@ -942,11 +969,12 @@
             return result;
         }
 
+        const IMAGE_PATH = 'images/';
         function buildQuestions() {
             const built = QUESTION_BANK.map((item) => {
                 const options = shuffle([
-                    { ...item.correct, isCorrect: true },
-                    ...item.decoys.map((src) => ({ src, alt: item.prompt + ' alternative', isCorrect: false }))
+                    { src: IMAGE_PATH + item.correct.src, alt: item.correct.alt, isCorrect: true },
+                    ...item.decoys.map((src) => ({ src: IMAGE_PATH + src, alt: item.prompt + ' alternative', isCorrect: false }))
                 ]);
                 return { prompt: item.prompt, options };
             });
@@ -1124,7 +1152,7 @@
                 const img = document.createElement('img');
                 img.src = option.src;
                 img.alt = option.alt;
-                img.loading = 'lazy';
+                img.loading = 'eager';
 
                 const fallback = document.createElement('span');
                 fallback.className = 'image-fallback';

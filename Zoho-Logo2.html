@@ -91,6 +91,26 @@
             display: block;
         }
 
+        /* When game is active, body fills viewport exactly */
+        body.game-active {
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        body.game-active .container {
+            height: 100%;
+            min-height: 0;
+            align-items: stretch;
+        }
+
+        #gameScreen.active {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -409,12 +429,15 @@
             line-height: 1.4;
         }
 
-        /* Logo Options Grid - 2x2 Layout */
+        /* Logo Options Grid - 2x2 Layout, fills remaining viewport */
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: 1fr 1fr;
             gap: 14px;
             margin-bottom: 0;
+            flex: 1;
+            min-height: 0;
         }
 
         .option-card {
@@ -427,6 +450,9 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 24px rgba(28, 35, 90, 0.14);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .option-card::before {
@@ -474,6 +500,11 @@
             border-radius: 14px;
             padding: 10px;
             box-shadow: inset 0 0 0 1px rgba(35, 44, 114, 0.12);
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         @keyframes correctPulse {
@@ -490,7 +521,8 @@
         .option-logo {
             display: block;
             width: 100%;
-            height: clamp(110px, 18vw, 170px);
+            height: 100%;
+            max-height: 100%;
             object-fit: contain;
             margin-bottom: 0;
             filter: brightness(1.03) saturate(1.05);
@@ -498,10 +530,12 @@
 
         .option-logo-fallback {
             width: 100%;
-            height: clamp(110px, 18vw, 170px);
+            height: 100%;
+            max-height: 100%;
             margin-bottom: 0;
             border: 2px dashed rgba(35, 44, 114, 0.34);
             border-radius: 12px;
+            display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent);
@@ -727,58 +761,71 @@
             border-radius: 10px;
         }
 
-        /* Responsive — keep 2x2 grid on all screens */
+        /* ── Responsive — game screen always fills viewport ── */
 
+        /* Tablet */
         @media (max-width: 1024px) {
-            .option-logo,
-            .option-logo-fallback { height: clamp(90px, 16vw, 140px); }
             .option-card { padding: 10px; }
             .option-media { padding: 8px; }
             .question-text { font-size: 1.3rem; }
         }
 
+        /* Mobile */
         @media (max-width: 768px) {
+            /* Landing / end screens */
             .logo-title { font-size: 2rem; }
             .subtitle { font-size: 1.1rem; }
-            .game-info { padding: 20px; }
+            .game-info { padding: 16px; }
             .end-title { font-size: 2rem; }
-            .end-card { padding: 30px; }
+            .end-card { padding: 24px; }
             .end-actions .btn { width: min(100%, 320px); }
             .stat-value { font-size: 1.8rem; }
+            .entry-card { padding: 24px; }
 
-            .container { padding: 12px; }
-            .game-hud { padding: 10px 14px; margin-bottom: 10px; }
-            .score { font-size: 1.5rem; }
-            .life { font-size: 1.5rem; }
-            .timer-container { transform: scale(0.75); transform-origin: center; }
-            .question-section { margin-bottom: 10px; }
-            .question-counter { font-size: 0.95rem; margin-bottom: 4px; }
-            .question-text { font-size: 1.15rem; margin-bottom: 8px; }
-            .progress-bar { margin-bottom: 10px; }
-            .options-grid { gap: 10px; }
-            .option-card { padding: 8px; border-width: 2px; border-radius: 14px; }
-            .option-media { padding: 6px; border-radius: 10px; }
-            .option-logo,
-            .option-logo-fallback { height: clamp(70px, 18vw, 110px); }
+            /* Game screen */
+            .container { padding: 10px; }
+            .game-hud { padding: 8px 12px; margin-bottom: 8px; }
+            .score { font-size: 1.4rem; }
+            .life { font-size: 1.4rem; }
+            .timer-container { transform: scale(0.7); transform-origin: center; }
+            .question-section { margin-bottom: 6px; }
+            .question-counter { font-size: 0.9rem; margin-bottom: 2px; }
+            .question-text { font-size: 1.1rem; margin-bottom: 6px; }
+            .progress-bar { margin-bottom: 8px; height: 6px; }
+            .options-grid { gap: 8px; }
+            .option-card { padding: 6px; border-width: 2px; border-radius: 14px; }
+            .option-media { padding: 5px; border-radius: 10px; }
         }
 
+        /* Small mobile */
         @media (max-width: 400px) {
-            .container { padding: 8px; }
-            .game-hud { padding: 8px 10px; margin-bottom: 8px; }
-            .score { font-size: 1.2rem; }
-            .life { font-size: 1.2rem; }
-            .timer-container { transform: scale(0.6); transform-origin: center; }
+            .container { padding: 6px; }
+            .game-hud { padding: 6px 8px; margin-bottom: 6px; }
+            .score { font-size: 1.1rem; }
+            .life { font-size: 1.1rem; }
+            .timer-container { transform: scale(0.55); transform-origin: center; }
             .timer-text { font-size: 1rem; }
-            .question-counter { font-size: 0.85rem; }
-            .question-text { font-size: 1rem; margin-bottom: 6px; }
-            .options-grid { gap: 6px; }
-            .option-card { padding: 5px; }
-            .option-media { padding: 4px; }
-            .option-logo,
-            .option-logo-fallback { height: 65px; font-size: 0.8rem; }
-            .entry-card { padding: 24px; }
-            .end-card { padding: 20px; }
+            .question-counter { font-size: 0.8rem; }
+            .question-text { font-size: 0.95rem; margin-bottom: 4px; }
+            .progress-bar { margin-bottom: 6px; height: 4px; }
+            .options-grid { gap: 5px; }
+            .option-card { padding: 4px; border-radius: 10px; }
+            .option-media { padding: 3px; border-radius: 8px; }
+            .end-card { padding: 18px; }
             .stat-value { font-size: 1.5rem; }
+        }
+
+        /* Landscape mobile (short height) */
+        @media (max-height: 500px) {
+            .container { padding: 4px; }
+            .game-hud { padding: 4px 8px; margin-bottom: 4px; }
+            .question-section { margin-bottom: 4px; }
+            .question-counter { display: none; }
+            .question-text { font-size: 0.9rem; margin-bottom: 4px; }
+            .progress-bar { margin-bottom: 4px; height: 3px; }
+            .options-grid { gap: 4px; }
+            .option-card { padding: 3px; }
+            .option-media { padding: 2px; }
         }
 
         /* Loading animation */
@@ -1494,6 +1541,7 @@
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById(screenId).classList.add('active');
+                document.body.classList.toggle('game-active', screenId === 'gameScreen');
             },
 
             showPlayerEntry() {

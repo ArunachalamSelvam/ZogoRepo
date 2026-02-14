@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zoho Logo Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --sky-1: #fff3c4;
+            --sky-2: #ffe2f2;
+            --sky-3: #dff5ff;
+            --ink: #2b2d42;
+            --muted: #55606f;
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffd93d;
+            --accent-2: #6c63ff;
+            --success: #2ecc71;
+            --error: #ff4d6d;
+            --warning: #ffb703;
+            --card: #ffffff;
+            --shadow: 0 12px 24px rgba(27, 32, 44, 0.12);
+            --shadow-soft: 0 6px 14px rgba(27, 32, 44, 0.08);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Nunito', sans-serif;
+            color: var(--ink);
+            background: radial-gradient(circle at top, var(--sky-1), var(--sky-2), var(--sky-3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 18px 90px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(#ffffff 1.2px, transparent 1.2px);
+            background-size: 24px 24px;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1120px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            background: var(--card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            border: 4px solid #fff8dc;
+            padding: 48px 56px 60px;
+            overflow: hidden;
+        }
+
+        .decor {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.65;
+            filter: blur(0.5px);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .decor.one {
+            width: 110px;
+            height: 110px;
+            background: #ffd166;
+            top: -35px;
+            right: 90px;
+            animation-delay: -1s;
+        }
+
+        .decor.two {
+            width: 140px;
+            height: 140px;
+            background: #8ecae6;
+            bottom: -40px;
+            left: 40px;
+            animation-delay: -2s;
+        }
+
+        .decor.three {
+            width: 85px;
+            height: 85px;
+            background: #ffafcc;
+            top: 65px;
+            left: -20px;
+            animation-delay: -3.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(12px); }
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--accent);
+            border-radius: 999px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #5d3b09;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .brand-title {
+            margin-top: 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.6rem;
+            color: var(--ink);
+        }
+
+        .brand-subtitle {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .screen {
+            display: none;
+            animation: popIn 0.4s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .card {
+            background: #fffdf8;
+            border-radius: var(--radius-md);
+            padding: 28px;
+            border: 2px dashed #ffe5a3;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .rules-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px 18px;
+            margin-top: 18px;
+        }
+
+        .rules-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .rules-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: var(--secondary);
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            background: #f0f9ff;
+            border: 2px solid #cbe7ff;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .checkbox-wrapper:hover {
+            transform: translateY(-2px);
+        }
+
+        .checkbox-wrapper input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 2px solid #d7dbe3;
+            font-size: 1rem;
+            font-family: 'Nunito', sans-serif;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.2);
+        }
+
+        .form-group input.error {
+            border-color: var(--error);
+            background: #ffe5ec;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            padding: 12px 26px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #f1f4ff;
+            color: var(--ink);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .game-header {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin: 12px 0 20px;
+        }
+
+        .game-title {
+            display: flex;
+            justify-content: center;
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: #f8fbff;
+            border-radius: var(--radius-md);
+            padding: 14px;
+            text-align: center;
+            border: 2px solid #d6ecff;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-family: 'Fredoka', sans-serif;
+            margin-top: 6px;
+        }
+
+        .lives-display {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .heart {
+            font-size: 1.4rem;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .heart.lost {
+            opacity: 0.25;
+            transform: scale(0.9);
+        }
+
+        .timer-pill {
+            position: relative;
+            height: 42px;
+            border-radius: 999px;
+            background: #fff;
+            border: 2px solid #e5f0ff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            color: var(--success);
+        }
+
+        .timer-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #6ee7b7, #34d399);
+            width: 100%;
+            transition: width 1s linear;
+            z-index: 0;
+        }
+
+        .timer-pill.warning {
+            color: var(--warning);
+        }
+
+        .timer-pill.warning .timer-bar {
+            background: linear-gradient(90deg, #ffe082, #ffb703);
+        }
+
+        .timer-pill.danger {
+            color: var(--error);
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        .timer-pill.danger .timer-bar {
+            background: linear-gradient(90deg, #ff8fab, #ff4d6d);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .prompt-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: #fff9e6;
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            border: 2px dashed #ffd166;
+            margin-bottom: 18px;
+        }
+
+        .prompt-label {
+            font-size: 0.9rem;
+            color: #7a5c00;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .prompt-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            color: #3d2b1f;
+        }
+
+        .progress {
+            height: 12px;
+            background: #e7f0ff;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .logo-option {
+            background: #ffffff;
+            border: 3px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 18px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 180px;
+        }
+
+        .logo-option:hover:not(:disabled) {
+            transform: translateY(-4px) rotate(-0.5deg);
+            border-color: var(--accent-2);
+        }
+
+        .logo-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .logo-option img {
+            max-width: 160px;
+            max-height: 120px;
+            object-fit: contain;
+        }
+
+        .image-fallback {
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-align: center;
+            padding: 10px;
+        }
+
+        .logo-option.correct {
+            border-color: var(--success);
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.25);
+            animation: pop 0.3s ease;
+        }
+
+        .logo-option.incorrect {
+            border-color: var(--error);
+            box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.2);
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.96); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-2px); }
+        }
+
+        .results-card {
+            background: #f7f9ff;
+            border-radius: var(--radius-md);
+            padding: 32px;
+            text-align: center;
+            border: 2px solid #d6ddff;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .results-icon {
+            font-size: 3.5rem;
+        }
+
+        .results-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            margin: 12px 0 6px;
+        }
+
+        .results-name {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 18px 0 10px;
+        }
+
+        .result-stat {
+            background: #ffffff;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            border: 2px solid #e7ebf3;
+        }
+
+        .result-stat-value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+        }
+
+        .result-stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--muted);
+        }
+
+        .save-status {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .save-status.success {
+            color: var(--success);
+        }
+
+        .save-status.error {
+            color: var(--error);
+        }
+
+        .audio-control {
+            position: fixed;
+            bottom: 26px;
+            right: 26px;
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
+            border: none;
+            background: var(--accent-2);
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            display: none;
+            transition: transform 0.2s ease;
+            z-index: 5;
+        }
+
+        .audio-control:hover {
+            transform: translateY(-3px);
+        }
+
+        .toast {
+            position: fixed;
+            top: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: 999px;
+            box-shadow: var(--shadow);
+            font-weight: 700;
+            display: none;
+            z-index: 10;
+        }
+
+        .toast.show {
+            display: block;
+            animation: toastPop 0.3s ease;
+        }
+
+        .toast.success { color: var(--success); }
+        .toast.error { color: var(--error); }
+        .toast.warning { color: var(--warning); }
+
+        @keyframes toastPop {
+            from { transform: translate(-50%, -8px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        .confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            top: -10px;
+            width: 10px;
+            height: 14px;
+            border-radius: 2px;
+            animation: confettiFall 0.9s ease-in forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding: 36px 32px 46px;
+            }
+
+            .rules-list {
+                grid-template-columns: 1fr;
+            }
+
+            .game-header {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .logo-option {
+                min-height: 160px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .brand-title {
+                font-size: 2rem;
+            }
+
+            .game-header {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="container">
+            <div class="decor one"></div>
+            <div class="decor two"></div>
+            <div class="decor three"></div>
+
+            <div id="brandBlock" class="brand">
+                <div class="brand-badge">🎈 Zoho Logo Quest</div>
+                <div class="brand-title">Can you spot the real Zoho logos?</div>
+                <div class="brand-subtitle">Pick the right logo before the timer pops.</div>
+            </div>
+
+            <section id="rulesScreen" class="screen active">
+                <div class="card">
+                    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.7rem;">Game Rules</h2>
+                    <ul class="rules-list">
+                        <li class="rules-item"><span class="rules-icon">⏱️</span>Answer each question in 10 seconds.</li>
+                        <li class="rules-item"><span class="rules-icon">❤️</span>You start with 3 lives.</li>
+                        <li class="rules-item"><span class="rules-icon">✅</span>Correct logo earns +10 points.</li>
+                        <li class="rules-item"><span class="rules-icon">❌</span>Wrong logo or timeout loses 1 life and -5 points.</li>
+                        <li class="rules-item"><span class="rules-icon">🎯</span>Your score never drops below 0.</li>
+                        <li class="rules-item"><span class="rules-icon">🏁</span>Finish all questions to win!</li>
+                        <li class="rules-item"><span class="rules-icon">🎵</span>Toggle music anytime.</li>
+                    </ul>
+
+                    <div class="checkbox-wrapper" onclick="toggleRulesCheckbox()">
+                        <input type="checkbox" id="rulesCheckbox" />
+                        <label for="rulesCheckbox">I’m ready to play!</label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button id="startBtn" class="btn btn-primary" disabled onclick="showUserDetails()">Let’s Go</button>
+                </div>
+            </section>
+
+            <section id="userDetailsScreen" class="screen">
+                <div class="card">
+                    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.7rem;">Player Info</h2>
+                    <p style="color: var(--muted); margin: 8px 0 18px;">We’ll save your score with your name and email.</p>
+                    <form id="userForm" onsubmit="submitUserDetails(event)">
+                        <div class="form-group">
+                            <label for="userName">Name *</label>
+                            <input type="text" id="userName" placeholder="Your name" required />
+                            <div class="error-message" id="nameError">Please enter your name.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userEmail">Email *</label>
+                            <input type="email" id="userEmail" placeholder="you@example.com" required />
+                            <div class="error-message" id="emailError">Please enter a valid email.</div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary" onclick="showRules()">Back</button>
+                            <button type="submit" class="btn btn-primary">Start Quiz</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="gameScreen" class="screen">
+                <div class="game-title">
+                    <div class="brand-badge">🎈 Zoho Logo Quest</div>
+                </div>
+                <div class="game-header">
+                    <div class="stat-card">
+                        <div class="stat-label">Lives</div>
+                        <div class="lives-display" id="livesDisplay"></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Score</div>
+                        <div class="stat-value" id="scoreDisplay">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Question</div>
+                        <div class="stat-value" id="questionDisplay">1 / 1</div>
+                        <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Time</div>
+                        <div id="timerPill" class="timer-pill">
+                            <div id="timerBar" class="timer-bar"></div>
+                            <span id="timerDisplay">10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prompt-card">
+                    <div>
+                        <div class="prompt-label">Find the logo for</div>
+                        <div id="questionPrompt" class="prompt-title">Zoho</div>
+                    </div>
+                    <div style="font-size: 2rem;">🧩</div>
+                </div>
+
+                <div class="logo-grid" id="logoGrid"></div>
+            </section>
+
+            <section id="gameOverScreen" class="screen">
+                <div class="results-card">
+                    <div class="results-icon">💔</div>
+                    <div class="results-title">Game Over</div>
+                    <div class="results-name" id="gameOverName"></div>
+                    <div class="results-stats">
+                        <div class="result-stat">
+                            <div class="result-stat-value" id="gameOverScore">0</div>
+                            <div class="result-stat-label">Final Score</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-value" id="gameOverQuestions">0</div>
+                            <div class="result-stat-label">Questions</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-value" id="gameOverAccuracy">0%</div>
+                            <div class="result-stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="save-status" id="gameOverSaveStatus">Saving your score...</div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
+                        <button class="btn btn-secondary" onclick="exitGame()">Exit</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="completionScreen" class="screen">
+                <div class="results-card">
+                    <div class="results-icon">🎉</div>
+                    <div class="results-title">You Did It!</div>
+                    <div class="results-name" id="completionName"></div>
+                    <div class="results-stats">
+                        <div class="result-stat">
+                            <div class="result-stat-value" id="completionScore">0</div>
+                            <div class="result-stat-label">Final Score</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-value" id="completionQuestions">0</div>
+                            <div class="result-stat-label">Questions</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-value" id="completionAccuracy">0%</div>
+                            <div class="result-stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="save-status" id="completionSaveStatus">Saving your score...</div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="restartGame()">Play Again</button>
+                        <button class="btn btn-secondary" onclick="exitGame()">Exit</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <button id="audioControl" class="audio-control" onclick="toggleAudio()" title="Toggle music">🔇</button>
+
+    <audio id="bgMusic" loop>
+        <source src="Mankatha.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div id="toast" class="toast"></div>
+    <div id="confetti" class="confetti"></div>
+
+    <script>
+        const GAME_CONFIG = {
+            TIMER_DURATION: 10,
+            INITIAL_LIVES: 3,
+            CORRECT_POINTS: 10,
+            WRONG_PENALTY: 5
+        };
+
+        const QUESTION_BANK = [
+            {
+                prompt: 'Zoho (main logo)',
+                correct: { src: 'zoho.png', alt: 'Zoho logo' },
+                decoys: ['zoho1.png', 'zoho2.png', 'zoho3.png']
+            },
+            {
+                prompt: 'Zoho Campaigns',
+                correct: { src: 'zoho-campaigns.png', alt: 'Zoho Campaigns logo' },
+                decoys: ['campaigns1.png', 'campaigns2.png', 'campaigns3.png']
+            },
+            {
+                prompt: 'Zoho Cliq',
+                correct: { src: 'zoho-cliq.png', alt: 'Zoho Cliq logo' },
+                decoys: ['cliq1.png', 'cliq2.png', 'cliq3.png']
+            },
+            {
+                prompt: 'Zoho Connect',
+                correct: { src: 'zoho-connect.png', alt: 'Zoho Connect logo' },
+                decoys: ['connect1.png', 'connect2.png', 'connect3.png']
+            },
+            {
+                prompt: 'Zoho Expense',
+                correct: { src: 'zoho-expense.png', alt: 'Zoho Expense logo' },
+                decoys: ['expense1.png', 'expense2.png', 'expense3.png']
+            },
+            {
+                prompt: 'Zoho Sign',
+                correct: { src: 'zoho-sign.png', alt: 'Zoho Sign logo' },
+                decoys: ['sign1.png', 'sign2.png', 'sign3.png']
+            }
+        ];
+
+        let questions = [];
+
+        let gameState = {
+            userName: '',
+            userEmail: '',
+            currentQuestion: 0,
+            score: 0,
+            lives: GAME_CONFIG.INITIAL_LIVES,
+            correctAnswers: 0,
+            totalAttempted: 0,
+            totalQuestions: 0,
+            timer: null,
+            timeRemaining: GAME_CONFIG.TIMER_DURATION,
+            audioEnabled: false,
+            isAnswering: false
+        };
+
+        const toastEl = document.getElementById('toast');
+        const audioButton = document.getElementById('audioControl');
+        const audioElement = document.getElementById('bgMusic');
+
+        function shuffle(array) {
+            const result = [...array];
+            for (let i = result.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [result[i], result[j]] = [result[j], result[i]];
+            }
+            return result;
+        }
+
+        function buildQuestions() {
+            const built = QUESTION_BANK.map((item) => {
+                const options = shuffle([
+                    { ...item.correct, isCorrect: true },
+                    ...item.decoys.map((src) => ({ src, alt: item.prompt + ' alternative', isCorrect: false }))
+                ]);
+                return { prompt: item.prompt, options };
+            });
+            return shuffle(built);
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach((screen) => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showRules() {
+            showScreen('rulesScreen');
+            hideAudioControl();
+            document.getElementById('brandBlock').style.display = 'block';
+        }
+
+        function showUserDetails() {
+            showScreen('userDetailsScreen');
+            document.getElementById('userName').focus();
+            document.getElementById('brandBlock').style.display = 'block';
+        }
+
+        function showGameScreen() {
+            showScreen('gameScreen');
+            showAudioControl();
+            updateAudioButton();
+            document.getElementById('brandBlock').style.display = 'none';
+            if (gameState.audioEnabled) {
+                playAudio();
+            }
+            updateDisplay();
+        }
+
+        function showGameOver() {
+            stopTimer();
+            hideAudioControl();
+            document.getElementById('brandBlock').style.display = 'block';
+
+            const accuracy = gameState.totalAttempted > 0
+                ? Math.round((gameState.correctAnswers / gameState.totalAttempted) * 100)
+                : 0;
+
+            document.getElementById('gameOverName').textContent = gameState.userName + ', nice try!';
+            document.getElementById('gameOverScore').textContent = gameState.score;
+            document.getElementById('gameOverQuestions').textContent = gameState.totalAttempted;
+            document.getElementById('gameOverAccuracy').textContent = accuracy + '%';
+
+            saveGameResult({
+                name: gameState.userName,
+                email: gameState.userEmail,
+                finalScore: gameState.score,
+                accuracy,
+                questionsAttempted: gameState.totalAttempted,
+                status: 'Game Over'
+            }, 'gameOverSaveStatus');
+
+            showScreen('gameOverScreen');
+        }
+
+        function showCompletion() {
+            stopTimer();
+            hideAudioControl();
+            document.getElementById('brandBlock').style.display = 'block';
+
+            const accuracy = gameState.totalQuestions > 0
+                ? Math.round((gameState.correctAnswers / gameState.totalQuestions) * 100)
+                : 0;
+
+            document.getElementById('completionName').textContent = gameState.userName + ', you rocked it!';
+            document.getElementById('completionScore').textContent = gameState.score;
+            document.getElementById('completionQuestions').textContent = gameState.totalQuestions;
+            document.getElementById('completionAccuracy').textContent = accuracy + '%';
+
+            saveGameResult({
+                name: gameState.userName,
+                email: gameState.userEmail,
+                finalScore: gameState.score,
+                accuracy,
+                questionsAttempted: gameState.totalQuestions,
+                status: 'Completed'
+            }, 'completionSaveStatus');
+
+            showScreen('completionScreen');
+        }
+
+        function toggleRulesCheckbox() {
+            const checkbox = document.getElementById('rulesCheckbox');
+            checkbox.checked = !checkbox.checked;
+            updateStartButton();
+        }
+
+        function updateStartButton() {
+            const checkbox = document.getElementById('rulesCheckbox');
+            const startBtn = document.getElementById('startBtn');
+            startBtn.disabled = !checkbox.checked;
+        }
+
+        document.getElementById('rulesCheckbox').addEventListener('change', updateStartButton);
+
+        function submitUserDetails(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('userEmail');
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+
+            let isValid = true;
+            if (!nameInput.value.trim()) {
+                nameInput.classList.add('error');
+                nameError.classList.add('show');
+                isValid = false;
+            } else {
+                nameInput.classList.remove('error');
+                nameError.classList.remove('show');
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput.value.trim() || !emailRegex.test(emailInput.value)) {
+                emailInput.classList.add('error');
+                emailError.classList.add('show');
+                isValid = false;
+            } else {
+                emailInput.classList.remove('error');
+                emailError.classList.remove('show');
+            }
+
+            if (!isValid) {
+                showToast('Please fix the form ✍️', 'warning');
+                return;
+            }
+
+            gameState.userName = nameInput.value.trim();
+            gameState.userEmail = emailInput.value.trim();
+            startGame();
+        }
+
+        function startGame() {
+            questions = buildQuestions();
+            gameState.currentQuestion = 0;
+            gameState.score = 0;
+            gameState.lives = GAME_CONFIG.INITIAL_LIVES;
+            gameState.correctAnswers = 0;
+            gameState.totalAttempted = 0;
+            gameState.totalQuestions = questions.length;
+            gameState.isAnswering = false;
+
+            showGameScreen();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (gameState.currentQuestion >= gameState.totalQuestions) {
+                showCompletion();
+                return;
+            }
+
+            gameState.isAnswering = false;
+            const question = questions[gameState.currentQuestion];
+            document.getElementById('questionPrompt').textContent = question.prompt;
+
+            const logoGrid = document.getElementById('logoGrid');
+            logoGrid.innerHTML = '';
+
+            question.options.forEach((option) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'logo-option';
+                button.dataset.correct = option.isCorrect ? 'true' : 'false';
+                button.setAttribute('aria-label', option.alt);
+                button.onclick = () => selectAnswer(button);
+
+                const img = document.createElement('img');
+                img.src = option.src;
+                img.alt = option.alt;
+                img.loading = 'lazy';
+
+                const fallback = document.createElement('span');
+                fallback.className = 'image-fallback';
+                fallback.textContent = 'Image missing';
+                fallback.style.display = 'none';
+
+                img.onerror = () => {
+                    img.style.display = 'none';
+                    fallback.style.display = 'block';
+                };
+
+                button.appendChild(img);
+                button.appendChild(fallback);
+                logoGrid.appendChild(button);
+            });
+
+            updateDisplay();
+            startTimer();
+        }
+
+        function selectAnswer(button) {
+            if (gameState.isAnswering) return;
+
+            gameState.isAnswering = true;
+            stopTimer();
+
+            const isCorrect = button.dataset.correct === 'true';
+            const options = document.querySelectorAll('.logo-option');
+
+            options.forEach((opt) => (opt.disabled = true));
+
+            if (isCorrect) {
+                button.classList.add('correct');
+                gameState.score += GAME_CONFIG.CORRECT_POINTS;
+                gameState.correctAnswers++;
+                showToast('Correct! +10 🎉', 'success');
+                celebrate();
+            } else {
+                button.classList.add('incorrect');
+                const correctOption = Array.from(options).find((opt) => opt.dataset.correct === 'true');
+                if (correctOption) correctOption.classList.add('correct');
+                gameState.lives--;
+                gameState.score = Math.max(0, gameState.score - GAME_CONFIG.WRONG_PENALTY);
+                showToast('Oops! -5', 'error');
+            }
+
+            gameState.totalAttempted++;
+            updateDisplay();
+
+            setTimeout(() => {
+                if (gameState.lives <= 0) {
+                    showGameOver();
+                } else {
+                    gameState.currentQuestion++;
+                    loadQuestion();
+                }
+            }, 1300);
+        }
+
+        function handleTimeout() {
+            if (gameState.isAnswering) return;
+
+            gameState.isAnswering = true;
+            stopTimer();
+
+            const options = document.querySelectorAll('.logo-option');
+            options.forEach((opt) => (opt.disabled = true));
+            const correctOption = Array.from(options).find((opt) => opt.dataset.correct === 'true');
+            if (correctOption) correctOption.classList.add('correct');
+
+            gameState.lives--;
+            gameState.score = Math.max(0, gameState.score - GAME_CONFIG.WRONG_PENALTY);
+            gameState.totalAttempted++;
+            updateDisplay();
+            showToast("Time's up!", 'warning');
+
+            setTimeout(() => {
+                if (gameState.lives <= 0) {
+                    showGameOver();
+                } else {
+                    gameState.currentQuestion++;
+                    loadQuestion();
+                }
+            }, 1300);
+        }
+
+        function startTimer() {
+            gameState.timeRemaining = GAME_CONFIG.TIMER_DURATION;
+            updateTimerDisplay();
+            stopTimer();
+
+            gameState.timer = setInterval(() => {
+                gameState.timeRemaining--;
+                updateTimerDisplay();
+                if (gameState.timeRemaining <= 0) {
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (gameState.timer) {
+                clearInterval(gameState.timer);
+                gameState.timer = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerPill = document.getElementById('timerPill');
+            const timerBar = document.getElementById('timerBar');
+
+            timerDisplay.textContent = gameState.timeRemaining;
+            const percentage = (gameState.timeRemaining / GAME_CONFIG.TIMER_DURATION) * 100;
+            timerBar.style.width = percentage + '%';
+
+            timerPill.classList.remove('warning', 'danger');
+            if (gameState.timeRemaining <= 3) {
+                timerPill.classList.add('danger');
+            } else if (gameState.timeRemaining <= 5) {
+                timerPill.classList.add('warning');
+            }
+        }
+
+        function updateDisplay() {
+            const livesDisplay = document.getElementById('livesDisplay');
+            livesDisplay.innerHTML = '';
+
+            for (let i = 0; i < GAME_CONFIG.INITIAL_LIVES; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart';
+                if (i >= gameState.lives) {
+                    heart.classList.add('lost');
+                }
+                heart.textContent = '❤️';
+                livesDisplay.appendChild(heart);
+            }
+
+            document.getElementById('scoreDisplay').textContent = gameState.score;
+            document.getElementById('questionDisplay').textContent =
+                `${gameState.currentQuestion + 1} / ${gameState.totalQuestions}`;
+
+            const progressBar = document.getElementById('progressBar');
+            const progress = ((gameState.currentQuestion) / gameState.totalQuestions) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function showToast(message, type) {
+            toastEl.textContent = message;
+            toastEl.className = `toast show ${type || ''}`.trim();
+            clearTimeout(showToast.timer);
+            showToast.timer = setTimeout(() => {
+                toastEl.className = 'toast';
+            }, 1200);
+        }
+
+        function celebrate() {
+            const confetti = document.getElementById('confetti');
+            confetti.innerHTML = '';
+            const colors = ['#ff6b6b', '#ffd93d', '#4ecdc4', '#6c63ff', '#ff9f1c'];
+
+            for (let i = 0; i < 28; i++) {
+                const piece = document.createElement('span');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.background = colors[i % colors.length];
+                piece.style.animationDelay = (Math.random() * 0.2) + 's';
+                confetti.appendChild(piece);
+            }
+        }
+
+        function showAudioControl() {
+            audioButton.style.display = 'block';
+        }
+
+        function hideAudioControl() {
+            audioButton.style.display = 'none';
+            stopAudio();
+        }
+
+        function updateAudioButton() {
+            audioButton.textContent = gameState.audioEnabled ? '🔊' : '🔇';
+        }
+
+        function playAudio() {
+            audioElement.play().catch(() => {
+                gameState.audioEnabled = false;
+                updateAudioButton();
+            });
+        }
+
+        function toggleAudio() {
+            gameState.audioEnabled = !gameState.audioEnabled;
+            updateAudioButton();
+            if (gameState.audioEnabled) {
+                playAudio();
+            } else {
+                stopAudio();
+            }
+        }
+
+        function stopAudio() {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+        }
+
+        function restartGame() {
+            document.getElementById('userForm').reset();
+            showUserDetails();
+        }
+
+        function exitGame() {
+            stopAudio();
+            document.getElementById('rulesCheckbox').checked = false;
+            updateStartButton();
+            showRules();
+        }
+
+        const DB_NAME = 'zohoLogoQuizDB';
+        const DB_STORE = 'scores';
+
+        function openDatabase() {
+            return new Promise((resolve, reject) => {
+                if (!('indexedDB' in window)) {
+                    reject(new Error('IndexedDB not supported'));
+                    return;
+                }
+
+                const request = indexedDB.open(DB_NAME, 1);
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(DB_STORE)) {
+                        db.createObjectStore(DB_STORE, { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function saveResultLocal(result) {
+            const stored = JSON.parse(localStorage.getItem('zohoQuizResults') || '[]');
+            stored.push(result);
+            localStorage.setItem('zohoQuizResults', JSON.stringify(stored));
+        }
+
+        async function saveGameResult(result, statusElementId) {
+            const statusEl = document.getElementById(statusElementId);
+            const payload = { ...result, timestamp: new Date().toISOString() };
+
+            try {
+                const db = await openDatabase();
+                const tx = db.transaction(DB_STORE, 'readwrite');
+                tx.objectStore(DB_STORE).add(payload);
+                tx.oncomplete = () => {
+                    statusEl.textContent = 'Saved in browser database.';
+                    statusEl.classList.add('success');
+                };
+                tx.onerror = () => {
+                    throw tx.error;
+                };
+            } catch (error) {
+                saveResultLocal(payload);
+                statusEl.textContent = 'Saved locally (fallback storage).';
+                statusEl.classList.add('error');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            showRules();
+        });
+    </script>
+</body>
+</html>

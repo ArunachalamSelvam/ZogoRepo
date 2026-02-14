@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoho Logo Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #F7931E;
+            --accent: #FDC830;
+            --dark: #1a1a2e;
+            --darker: #0f0f1e;
+            --light: #eee;
+            --success: #4CAF50;
+            --error: #ff4757;
+            --purple: #a864fd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #2d1b4e 100%);
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(50px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Landing Screen */
+        .landing {
+            text-align: center;
+        }
+
+        .logo-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(2rem, 8vw, 4rem);
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 40px rgba(255, 107, 53, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .game-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-info h3 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Player Entry */
+        .player-entry {
+            text-align: center;
+        }
+
+        .entry-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .entry-card h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--accent);
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            text-align: left;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Game Screen */
+        .game-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .hud-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 0 0 10px rgba(253, 200, 48, 0.5);
+        }
+
+        .score.pulse {
+            animation: scorePulse 0.5s ease;
+        }
+
+        @keyframes scorePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .lives {
+            display: flex;
+            gap: 8px;
+        }
+
+        .life {
+            font-size: 2rem;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+        }
+
+        .life.lost {
+            opacity: 0.2;
+            animation: none;
+        }
+
+        /* Timer Circle */
+        .timer-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .timer-circle {
+            transform: rotate(-90deg);
+        }
+
+        .timer-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 8;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-progress.warning {
+            stroke: var(--error);
+            animation: timerPulse 0.5s infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { stroke-width: 8; }
+            50% { stroke-width: 10; }
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* Question Area */
+        .question-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .question-counter {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        /* Logo Options Grid - 2x2 Layout */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .option-card:hover::before {
+            opacity: 1;
+        }
+
+        .option-card.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .option-card.correct {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: var(--success);
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option-card.wrong {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: var(--error);
+            animation: wrongShake 0.6s ease;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-15px) rotate(-5deg); }
+            75% { transform: translateX(15px) rotate(5deg); }
+        }
+
+        .option-logo {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            filter: brightness(1.1);
+        }
+
+        .option-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* End Screens */
+        .end-screen {
+            text-align: center;
+        }
+
+        .end-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .end-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            animation: fadeInScale 0.8s ease;
+        }
+
+        .end-title.victory {
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .end-title.defeat {
+            color: var(--error);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--light);
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Audio Toggle */
+        .audio-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .audio-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Feedback Messages */
+        .feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            padding: 40px 60px;
+            border-radius: 30px;
+            z-index: 2000;
+            pointer-events: none;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .feedback.show {
+            animation: feedbackPop 1s ease;
+        }
+
+        @keyframes feedbackPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            10% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            30% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            90% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, var(--success), #66bb6a);
+            color: white;
+            box-shadow: 0 0 60px rgba(76, 175, 80, 0.8);
+        }
+
+        .feedback.wrong {
+            background: linear-gradient(135deg, var(--error), #ff6b81);
+            color: white;
+            box-shadow: 0 0 60px rgba(255, 71, 87, 0.8);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .question-text {
+                font-size: 1.4rem;
+            }
+
+            .end-title {
+                font-size: 2rem;
+            }
+
+            .game-info {
+                padding: 20px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Audio Toggle -->
+    <div class="audio-toggle" id="audioToggle" title="Toggle Music">🔊</div>
+
+    <!-- Feedback Messages -->
+    <div class="feedback" id="feedback"></div>
+
+    <div class="container">
+        <!-- Landing Screen -->
+        <div class="screen active" id="landingScreen">
+            <div class="landing">
+                <h1 class="logo-title">ZOHO<br>LOGO<br>CHALLENGE</h1>
+                <p class="subtitle">Test Your Zoho Product Knowledge!</p>
+                
+                <div class="game-info">
+                    <h3>🎮 How to Play</h3>
+                    <div class="info-item">
+                        <span class="info-icon">🎯</span>
+                        <span>Match logos to their correct Zoho products</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⏱️</span>
+                        <span>10 seconds per question</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">❤️</span>
+                        <span>3 lives - don't lose them all!</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⭐</span>
+                        <span>+10 points correct | -5 points wrong</span>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="game.showPlayerEntry()">START GAME</button>
+            </div>
+        </div>
+
+        <!-- Player Entry Screen -->
+        <div class="screen" id="playerEntryScreen">
+            <div class="player-entry">
+                <div class="entry-card">
+                    <h2>Enter Your Name</h2>
+                    <form id="playerForm" onsubmit="game.startGame(event)">
+                        <div class="input-group">
+                            <label for="playerName">Player Name</label>
+                            <input 
+                                type="text" 
+                                id="playerName" 
+                                placeholder="Enter your name..."
+                                maxlength="20"
+                                required
+                            >
+                            <div class="error-msg" id="nameError">Name must be at least 2 characters</div>
+                        </div>
+                        <button type="submit" class="btn">LET'S GO! 🚀</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="screen" id="gameScreen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="game-hud">
+                <div class="hud-item">
+                    <span style="font-size: 1.2rem; font-weight: 600;">SCORE:</span>
+                    <span class="score" id="score">0</span>
+                </div>
+
+                <div class="timer-container">
+                    <svg class="timer-circle" width="80" height="80">
+                        <circle class="timer-bg" cx="40" cy="40" r="32"></circle>
+                        <circle class="timer-progress" id="timerCircle" cx="40" cy="40" r="32" 
+                                stroke-dasharray="201" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-text" id="timerText">10</div>
+                </div>
+
+                <div class="hud-item">
+                    <span style="font-size: 1.2rem; font-weight: 600;">LIVES:</span>
+                    <div class="lives" id="lives">
+                        <span class="life">❤️</span>
+                        <span class="life">❤️</span>
+                        <span class="life">❤️</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <div class="question-counter" id="questionCounter">Question 1 of 50</div>
+                <h2 class="question-text" id="questionText">Loading...</h2>
+            </div>
+
+            <div class="options-grid" id="optionsGrid">
+                <!-- Options will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div class="screen" id="victoryScreen">
+            <div class="end-screen">
+                <div class="end-card">
+                    <h1 class="end-title victory">🏆 VICTORY! 🏆</h1>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--accent);">
+                        Congratulations, <span id="winnerName"></span>!
+                    </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="finalScore">0</div>
+                            <div class="stat-label">Final Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="correctAnswers">0</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="accuracy">100%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="game.restart()">PLAY AGAIN</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="screen" id="gameOverScreen">
+            <div class="end-screen">
+                <div class="end-card">
+                    <h1 class="end-title defeat">GAME OVER</h1>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--error);">
+                        Better luck next time, <span id="loserName"></span>!
+                    </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="gameOverScore">0</div>
+                            <div class="stat-label">Final Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="questionsAnswered">0</div>
+                            <div class="stat-label">Questions Answered</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="gameOverCorrect">0</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="game.restart()">TRY AGAIN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+
+    <script>
+        // Questions Database
+        const questions = [
+            {
+                question: "Which Zoho product helps you manage customer relationships?",
+                correct: "Zoho CRM",
+                options: ["Zoho CRM", "Zoho Books", "Zoho Projects", "Zoho Desk"]
+            },
+            {
+                question: "Which tool is used for online meetings and webinars?",
+                correct: "Zoho Meeting",
+                options: ["Zoho Meeting", "Zoho Cliq", "Zoho Connect", "Zoho ShowTime"]
+            },
+            {
+                question: "Which product is Zoho's accounting software?",
+                correct: "Zoho Books",
+                options: ["Zoho Books", "Zoho Invoice", "Zoho Expense", "Zoho Inventory"]
+            },
+            {
+                question: "Which Zoho app is for team collaboration and messaging?",
+                correct: "Zoho Cliq",
+                options: ["Zoho Cliq", "Zoho Connect", "Zoho Meeting", "Zoho Mail"]
+            },
+            {
+                question: "Which tool helps you create online forms and surveys?",
+                correct: "Zoho Forms",
+                options: ["Zoho Forms", "Zoho Survey", "Zoho Creator", "Zoho Writer"]
+            },
+            {
+                question: "Which product is Zoho's email hosting service?",
+                correct: "Zoho Mail",
+                options: ["Zoho Mail", "Zoho Inbox", "Zoho Cliq", "Zoho Connect"]
+            },
+            {
+                question: "Which tool is used for project management?",
+                correct: "Zoho Projects",
+                options: ["Zoho Projects", "Zoho Sprints", "Zoho BugTracker", "Zoho Tasks"]
+            },
+            {
+                question: "Which product helps with customer support ticketing?",
+                correct: "Zoho Desk",
+                options: ["Zoho Desk", "Zoho Assist", "Zoho SalesIQ", "Zoho Support"]
+            },
+            {
+                question: "Which Zoho tool is for creating presentations?",
+                correct: "Zoho Show",
+                options: ["Zoho Show", "Zoho Writer", "Zoho Sheet", "Zoho Present"]
+            },
+            {
+                question: "Which product manages your inventory?",
+                correct: "Zoho Inventory",
+                options: ["Zoho Inventory", "Zoho Books", "Zoho Commerce", "Zoho Stock"]
+            },
+            {
+                question: "Which tool is for agile project management?",
+                correct: "Zoho Sprints",
+                options: ["Zoho Sprints", "Zoho Projects", "Zoho BugTracker", "Zoho Scrum"]
+            },
+            {
+                question: "Which product helps you create mobile and web apps?",
+                correct: "Zoho Creator",
+                options: ["Zoho Creator", "Zoho Developer", "Zoho AppBuilder", "Zoho Studio"]
+            },
+            {
+                question: "Which tool is for remote desktop support?",
+                correct: "Zoho Assist",
+                options: ["Zoho Assist", "Zoho Desk", "Zoho Remote", "Zoho Lens"]
+            },
+            {
+                question: "Which product is Zoho's spreadsheet application?",
+                correct: "Zoho Sheet",
+                options: ["Zoho Sheet", "Zoho Excel", "Zoho Calc", "Zoho Tables"]
+            },
+            {
+                question: "Which tool tracks employee attendance and time?",
+                correct: "Zoho People",
+                options: ["Zoho People", "Zoho Recruit", "Zoho Attendance", "Zoho HR"]
+            },
+            {
+                question: "Which product helps with marketing automation?",
+                correct: "Zoho MarketingHub",
+                options: ["Zoho MarketingHub", "Zoho Campaigns", "Zoho Social", "Zoho SalesIQ"]
+            },
+            {
+                question: "Which tool is for website live chat?",
+                correct: "Zoho SalesIQ",
+                options: ["Zoho SalesIQ", "Zoho Desk", "Zoho Chat", "Zoho LiveChat"]
+            },
+            {
+                question: "Which product manages recruitment and hiring?",
+                correct: "Zoho Recruit",
+                options: ["Zoho Recruit", "Zoho People", "Zoho Jobs", "Zoho Hire"]
+            },
+            {
+                question: "Which tool creates and sends email campaigns?",
+                correct: "Zoho Campaigns",
+                options: ["Zoho Campaigns", "Zoho Mail", "Zoho Marketing", "Zoho Newsletter"]
+            },
+            {
+                question: "Which product is for social media management?",
+                correct: "Zoho Social",
+                options: ["Zoho Social", "Zoho Marketing", "Zoho Campaigns", "Zoho Publisher"]
+            },
+            {
+                question: "Which tool helps with expense tracking?",
+                correct: "Zoho Expense",
+                options: ["Zoho Expense", "Zoho Books", "Zoho Finance", "Zoho Spending"]
+            },
+            {
+                question: "Which product creates invoices?",
+                correct: "Zoho Invoice",
+                options: ["Zoho Invoice", "Zoho Books", "Zoho Billing", "Zoho Finance"]
+            },
+            {
+                question: "Which tool is for creating documents?",
+                correct: "Zoho Writer",
+                options: ["Zoho Writer", "Zoho Docs", "Zoho Word", "Zoho Editor"]
+            },
+            {
+                question: "Which product manages subscriptions and billing?",
+                correct: "Zoho Subscriptions",
+                options: ["Zoho Subscriptions", "Zoho Billing", "Zoho Recurring", "Zoho Payment"]
+            },
+            {
+                question: "Which tool is for building knowledge bases?",
+                correct: "Zoho Desk",
+                options: ["Zoho Desk", "Zoho Wiki", "Zoho Learn", "Zoho KB"]
+            },
+            {
+                question: "Which product analyzes business data?",
+                correct: "Zoho Analytics",
+                options: ["Zoho Analytics", "Zoho Reports", "Zoho BI", "Zoho Insights"]
+            },
+            {
+                question: "Which tool manages sales pipelines?",
+                correct: "Zoho CRM",
+                options: ["Zoho CRM", "Zoho Sales", "Zoho Pipeline", "Zoho Deals"]
+            },
+            {
+                question: "Which product handles payroll?",
+                correct: "Zoho People",
+                options: ["Zoho People", "Zoho Payroll", "Zoho HR", "Zoho Finance"]
+            },
+            {
+                question: "Which tool creates landing pages?",
+                correct: "Zoho Sites",
+                options: ["Zoho Sites", "Zoho Pages", "Zoho Landing", "Zoho Builder"]
+            },
+            {
+                question: "Which product manages ecommerce?",
+                correct: "Zoho Commerce",
+                options: ["Zoho Commerce", "Zoho Shop", "Zoho Store", "Zoho Sales"]
+            },
+            {
+                question: "Which tool provides business phone systems?",
+                correct: "Zoho PhoneBridge",
+                options: ["Zoho PhoneBridge", "Zoho Voice", "Zoho Call", "Zoho Telephony"]
+            },
+            {
+                question: "Which product manages contracts?",
+                correct: "Zoho Contracts",
+                options: ["Zoho Contracts", "Zoho Sign", "Zoho Legal", "Zoho Agreements"]
+            },
+            {
+                question: "Which tool is for electronic signatures?",
+                correct: "Zoho Sign",
+                options: ["Zoho Sign", "Zoho Signature", "Zoho eSign", "Zoho Contracts"]
+            },
+            {
+                question: "Which product schedules appointments?",
+                correct: "Zoho Bookings",
+                options: ["Zoho Bookings", "Zoho Calendar", "Zoho Schedule", "Zoho Appointments"]
+            },
+            {
+                question: "Which tool connects different apps?",
+                correct: "Zoho Flow",
+                options: ["Zoho Flow", "Zoho Connector", "Zoho Sync", "Zoho Bridge"]
+            },
+            {
+                question: "Which product is for event management?",
+                correct: "Zoho Backstage",
+                options: ["Zoho Backstage", "Zoho Events", "Zoho Planner", "Zoho Venue"]
+            },
+            {
+                question: "Which tool manages sales quotes?",
+                correct: "Zoho CRM",
+                options: ["Zoho CRM", "Zoho Quote", "Zoho Sales", "Zoho Estimate"]
+            },
+            {
+                question: "Which product is for password management?",
+                correct: "Zoho Vault",
+                options: ["Zoho Vault", "Zoho Password", "Zoho Secure", "Zoho Safe"]
+            },
+            {
+                question: "Which tool provides website analytics?",
+                correct: "Zoho SalesIQ",
+                options: ["Zoho SalesIQ", "Zoho Analytics", "Zoho Insights", "Zoho Tracker"]
+            },
+            {
+                question: "Which product manages purchase orders?",
+                correct: "Zoho Inventory",
+                options: ["Zoho Inventory", "Zoho Purchase", "Zoho Orders", "Zoho Procurement"]
+            },
+            {
+                question: "Which tool creates online courses?",
+                correct: "Zoho ShowTime",
+                options: ["Zoho ShowTime", "Zoho Learn", "Zoho Training", "Zoho Teach"]
+            },
+            {
+                question: "Which product handles bug tracking?",
+                correct: "Zoho BugTracker",
+                options: ["Zoho BugTracker", "Zoho Issues", "Zoho Debug", "Zoho Projects"]
+            },
+            {
+                question: "Which tool is for workplace collaboration?",
+                correct: "Zoho Connect",
+                options: ["Zoho Connect", "Zoho Team", "Zoho Workplace", "Zoho Collab"]
+            },
+            {
+                question: "Which product manages sales territories?",
+                correct: "Zoho CRM",
+                options: ["Zoho CRM", "Zoho Territory", "Zoho Sales", "Zoho Regions"]
+            },
+            {
+                question: "Which tool creates web forms?",
+                correct: "Zoho Forms",
+                options: ["Zoho Forms", "Zoho Survey", "Zoho Input", "Zoho Fields"]
+            },
+            {
+                question: "Which product provides IT service management?",
+                correct: "Zoho Desk",
+                options: ["Zoho Desk", "Zoho ServiceDesk", "Zoho ITSM", "Zoho Support"]
+            },
+            {
+                question: "Which tool manages purchase workflows?",
+                correct: "Zoho Inventory",
+                options: ["Zoho Inventory", "Zoho Procurement", "Zoho Purchase", "Zoho Vendor"]
+            },
+            {
+                question: "Which product helps with sales forecasting?",
+                correct: "Zoho CRM",
+                options: ["Zoho CRM", "Zoho Forecast", "Zoho Predict", "Zoho Analytics"]
+            },
+            {
+                question: "Which tool manages field service operations?",
+                correct: "Zoho FSM",
+                options: ["Zoho FSM", "Zoho Field", "Zoho Service", "Zoho Mobile"]
+            },
+            {
+                question: "Which product provides digital workplace tools?",
+                correct: "Zoho Workplace",
+                options: ["Zoho Workplace", "Zoho Office", "Zoho Suite", "Zoho Connect"]
+            }
+        ];
+
+        // Game State Management
+        const game = {
+            state: {
+                playerName: '',
+                currentQuestion: 0,
+                score: 0,
+                lives: 3,
+                correctCount: 0,
+                totalAnswered: 0,
+                timer: null,
+                timeLeft: 10,
+                isAnswering: false,
+                musicEnabled: true,
+                questions: []
+            },
+
+            init() {
+                this.createParticles();
+                this.loadState();
+                this.setupAudio();
+            },
+
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 15 + 's';
+                    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            },
+
+            setupAudio() {
+                const audioToggle = document.getElementById('audioToggle');
+                const bgMusic = document.getElementById('bgMusic');
+
+                audioToggle.addEventListener('click', () => {
+                    this.state.musicEnabled = !this.state.musicEnabled;
+                    audioToggle.textContent = this.state.musicEnabled ? '🔊' : '🔇';
+                    
+                    if (this.state.musicEnabled) {
+                        bgMusic.play().catch(() => {});
+                    } else {
+                        bgMusic.pause();
+                    }
+                    
+                    this.saveState();
+                });
+
+                // Auto-play if enabled
+                if (this.state.musicEnabled) {
+                    bgMusic.play().catch(() => {});
+                }
+            },
+
+            showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(screenId).classList.add('active');
+            },
+
+            showPlayerEntry() {
+                this.showScreen('playerEntryScreen');
+                document.getElementById('playerName').focus();
+            },
+
+            startGame(event) {
+                event.preventDefault();
+                const nameInput = document.getElementById('playerName');
+                const name = nameInput.value.trim();
+                const errorMsg = document.getElementById('nameError');
+
+                if (name.length < 2) {
+                    errorMsg.classList.add('show');
+                    nameInput.classList.add('error');
+                    return;
+                }
+
+                this.state.playerName = name;
+                this.state.currentQuestion = 0;
+                this.state.score = 0;
+                this.state.lives = 3;
+                this.state.correctCount = 0;
+                this.state.totalAnswered = 0;
+                this.state.questions = this.shuffleArray([...questions]);
+                
+                this.saveState();
+                this.showScreen('gameScreen');
+                this.loadQuestion();
+            },
+
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            },
+
+            loadQuestion() {
+                if (this.state.currentQuestion >= this.state.questions.length) {
+                    this.showVictory();
+                    return;
+                }
+
+                const question = this.state.questions[this.state.currentQuestion];
+                
+                // Update UI
+                document.getElementById('questionCounter').textContent = 
+                    `Question ${this.state.currentQuestion + 1} of ${this.state.questions.length}`;
+                document.getElementById('questionText').textContent = question.question;
+                document.getElementById('score').textContent = this.state.score;
+                
+                // Update progress bar
+                const progress = ((this.state.currentQuestion) / this.state.questions.length) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+
+                // Update lives
+                const livesContainer = document.getElementById('lives');
+                livesContainer.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    const life = document.createElement('span');
+                    life.className = 'life' + (i >= this.state.lives ? ' lost' : '');
+                    life.textContent = '❤️';
+                    livesContainer.appendChild(life);
+                }
+
+                // Render options
+                this.renderOptions(question);
+
+                // Start timer
+                this.state.isAnswering = false;
+                this.startTimer();
+            },
+
+            renderOptions(question) {
+                const grid = document.getElementById('optionsGrid');
+                const shuffledOptions = this.shuffleArray(question.options);
+                
+                grid.innerHTML = shuffledOptions.map(option => `
+                    <div class="option-card" onclick="game.selectAnswer('${option}')">
+                        <div class="option-logo" style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 3rem;
+                            font-weight: 700;
+                            background: linear-gradient(135deg, var(--primary), var(--purple));
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                        ">${option.split(' ')[1]}</div>
+                        <div class="option-name">${option}</div>
+                    </div>
+                `).join('');
+            },
+
+            startTimer() {
+                this.state.timeLeft = 10;
+                const timerCircle = document.getElementById('timerCircle');
+                const timerText = document.getElementById('timerText');
+                const circumference = 201;
+
+                if (this.state.timer) {
+                    clearInterval(this.state.timer);
+                }
+
+                timerCircle.classList.remove('warning');
+                timerText.textContent = '10';
+                timerCircle.style.strokeDashoffset = '0';
+
+                this.state.timer = setInterval(() => {
+                    this.state.timeLeft--;
+                    timerText.textContent = this.state.timeLeft;
+                    
+                    const offset = (circumference * (10 - this.state.timeLeft)) / 10;
+                    timerCircle.style.strokeDashoffset = offset;
+
+                    if (this.state.timeLeft <= 3) {
+                        timerCircle.classList.add('warning');
+                    }
+
+                    if (this.state.timeLeft <= 0) {
+                        clearInterval(this.state.timer);
+                        if (!this.state.isAnswering) {
+                            this.timeout();
+                        }
+                    }
+                }, 1000);
+            },
+
+            selectAnswer(answer) {
+                if (this.state.isAnswering) return;
+                
+                this.state.isAnswering = true;
+                clearInterval(this.state.timer);
+
+                const question = this.state.questions[this.state.currentQuestion];
+                const isCorrect = answer === question.correct;
+                const cards = document.querySelectorAll('.option-card');
+
+                // Visual feedback
+                cards.forEach(card => {
+                    const cardName = card.querySelector('.option-name').textContent;
+                    if (cardName === answer) {
+                        card.classList.add(isCorrect ? 'correct' : 'wrong');
+                    }
+                    if (cardName === question.correct && !isCorrect) {
+                        card.classList.add('correct');
+                    }
+                    card.classList.add('disabled');
+                });
+
+                // Show feedback
+                this.showFeedback(isCorrect);
+
+                // Update score and stats
+                this.state.totalAnswered++;
+                if (isCorrect) {
+                    this.state.score += 10;
+                    this.state.correctCount++;
+                    this.animateScore();
+                } else {
+                    this.state.lives--;
+                    this.state.score = Math.max(0, this.state.score - 5);
+                    
+                    if (this.state.lives === 0) {
+                        setTimeout(() => this.showGameOver(), 1500);
+                        return;
+                    }
+                }
+
+                this.saveState();
+
+                // Next question
+                setTimeout(() => {
+                    this.state.currentQuestion++;
+                    this.loadQuestion();
+                }, 1500);
+            },
+
+            timeout() {
+                this.state.isAnswering = true;
+                this.state.totalAnswered++;
+                this.state.lives--;
+                this.state.score = Math.max(0, this.state.score - 5);
+
+                const question = this.state.questions[this.state.currentQuestion];
+                const cards = document.querySelectorAll('.option-card');
+
+                cards.forEach(card => {
+                    const cardName = card.querySelector('.option-name').textContent;
+                    if (cardName === question.correct) {
+                        card.classList.add('correct');
+                    }
+                    card.classList.add('disabled');
+                });
+
+                this.showFeedback(false, 'TIME OUT!');
+
+                if (this.state.lives === 0) {
+                    setTimeout(() => this.showGameOver(), 1500);
+                    return;
+                }
+
+                this.saveState();
+
+                setTimeout(() => {
+                    this.state.currentQuestion++;
+                    this.loadQuestion();
+                }, 1500);
+            },
+
+            showFeedback(isCorrect, customText = null) {
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = customText || (isCorrect ? 'CORRECT! ✓' : 'WRONG! ✗');
+                feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+                
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 1000);
+            },
+
+            animateScore() {
+                const scoreElement = document.getElementById('score');
+                scoreElement.classList.add('pulse');
+                setTimeout(() => scoreElement.classList.remove('pulse'), 500);
+            },
+
+            showVictory() {
+                document.getElementById('winnerName').textContent = this.state.playerName;
+                document.getElementById('finalScore').textContent = this.state.score;
+                document.getElementById('correctAnswers').textContent = this.state.correctCount;
+                const accuracy = Math.round((this.state.correctCount / this.state.totalAnswered) * 100) || 0;
+                document.getElementById('accuracy').textContent = accuracy + '%';
+                
+                this.showScreen('victoryScreen');
+                this.clearState();
+            },
+
+            showGameOver() {
+                document.getElementById('loserName').textContent = this.state.playerName;
+                document.getElementById('gameOverScore').textContent = this.state.score;
+                document.getElementById('questionsAnswered').textContent = this.state.totalAnswered;
+                document.getElementById('gameOverCorrect').textContent = this.state.correctCount;
+                
+                this.showScreen('gameOverScreen');
+                this.clearState();
+            },
+
+            restart() {
+                this.clearState();
+                this.showScreen('landingScreen');
+                document.getElementById('playerName').value = '';
+            },
+
+            saveState() {
+                try {
+                    localStorage.setItem('zohoGameState', JSON.stringify({
+                        playerName: this.state.playerName,
+                        currentQuestion: this.state.currentQuestion,
+                        score: this.state.score,
+                        lives: this.state.lives,
+                        correctCount: this.state.correctCount,
+                        totalAnswered: this.state.totalAnswered,
+                        questions: this.state.questions,
+                        musicEnabled: this.state.musicEnabled
+                    }));
+                } catch (e) {
+                    console.log('Could not save state');
+                }
+            },
+
+            loadState() {
+                try {
+                    const saved = localStorage.getItem('zohoGameState');
+                    if (saved) {
+                        const state = JSON.parse(saved);
+                        
+                        // Only restore if game was in progress
+                        if (state.currentQuestion > 0 && state.lives > 0 && 
+                            state.currentQuestion < (state.questions?.length || 50)) {
+                            
+                            Object.assign(this.state, state);
+                            
+                            // Resume game
+                            this.showScreen('gameScreen');
+                            this.loadQuestion();
+                            
+                            // Update audio toggle
+                            document.getElementById('audioToggle').textContent = 
+                                this.state.musicEnabled ? '🔊' : '🔇';
+                        } else {
+                            // Invalid state, clear it
+                            this.clearState();
+                        }
+                    }
+                } catch (e) {
+                    console.log('Could not load state');
+                    this.clearState();
+                }
+            },
+
+            clearState() {
+                try {
+                    localStorage.removeItem('zohoGameState');
+                } catch (e) {
+                    console.log('Could not clear state');
+                }
+            }
+        };
+
+        // Initialize game when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            game.init();
+        });
+
+        // Real-time validation for player name
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('playerName');
+            const errorMsg = document.getElementById('nameError');
+
+            nameInput?.addEventListener('input', () => {
+                if (nameInput.value.trim().length >= 2) {
+                    errorMsg.classList.remove('show');
+                    nameInput.classList.remove('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

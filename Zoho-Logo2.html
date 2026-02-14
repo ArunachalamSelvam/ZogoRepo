@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoho Logo Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=Space+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF2F5D;
+            --secondary: #E14557;
+            --accent: #232C72;
+            --dark: #EFE0C3;
+            --darker: #F7EACF;
+            --light: #232C72;
+            --success: #2F3E93;
+            --error: #D93654;
+            --purple: #303B8A;
+            --surface: rgba(250, 240, 220, 0.86);
+            --surface-strong: rgba(255, 247, 230, 0.94);
+            --surface-soft: rgba(240, 227, 199, 0.78);
+            --border-strong: rgba(35, 44, 114, 0.32);
+            --border-soft: rgba(35, 44, 114, 0.18);
+            --text-main: #232C72;
+            --text-muted: #4C548A;
+            --glow-primary: rgba(255, 47, 93, 0.24);
+            --shadow-soft: 0 14px 32px rgba(28, 35, 90, 0.16);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 52%, #ffeac8 100%);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.22;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(50px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Landing Screen */
+        .landing {
+            text-align: center;
+        }
+
+        .logo-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(2rem, 8vw, 4rem);
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 24px var(--glow-primary);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-title-gap {
+            display: block;
+            margin-top: 0.25em;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .game-info {
+            background: var(--surface);
+            border: 2px solid var(--border-strong);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .game-info h3 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            box-shadow: 0 10px 28px rgba(255, 47, 93, 0.32);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 34px rgba(255, 47, 93, 0.42);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            box-shadow: 0 10px 24px rgba(35, 44, 114, 0.32);
+        }
+
+        /* Player Entry */
+        .player-entry {
+            text-align: center;
+        }
+
+        .entry-card {
+            background: var(--surface);
+            border: 2px solid var(--border-strong);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .entry-card h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--accent);
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-soft);
+            border-radius: 15px;
+            background: var(--surface-strong);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 47, 93, 0.18);
+        }
+
+        .input-group input.error {
+            border-color: var(--error);
+            box-shadow: 0 0 12px rgba(255, 71, 87, 0.25);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            text-align: left;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Game Screen */
+        .game-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: var(--surface-strong);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .hud-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 0 0 10px rgba(35, 44, 114, 0.24);
+        }
+
+        .score.pulse {
+            animation: scorePulse 0.5s ease;
+        }
+
+        @keyframes scorePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .lives {
+            display: flex;
+            gap: 8px;
+        }
+
+        .life {
+            font-size: 2rem;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+        }
+
+        .life.lost {
+            opacity: 0.2;
+            animation: none;
+        }
+
+        /* Timer Circle */
+        .timer-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .timer-circle {
+            transform: rotate(-90deg);
+        }
+
+        .timer-bg {
+            fill: none;
+            stroke: rgba(83, 101, 142, 0.24);
+            stroke-width: 8;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-progress.warning {
+            stroke: var(--error);
+            animation: timerPulse 0.5s infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { stroke-width: 8; }
+            50% { stroke-width: 10; }
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Press Start 2P', cursive;
+            color: var(--text-main);
+        }
+
+        /* Question Area */
+        .question-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .question-counter {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        /* Logo Options Grid - 2x2 Layout */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: var(--surface);
+            border: 3px solid var(--border-strong);
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(28, 35, 90, 0.14);
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 47, 93, 0.12) 0%, transparent 72%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 16px 34px rgba(35, 44, 114, 0.24);
+        }
+
+        .option-card:hover::before {
+            opacity: 1;
+        }
+
+        .option-card.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .option-card.correct {
+            background: rgba(47, 62, 147, 0.16);
+            border-color: var(--success);
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option-card.wrong {
+            background: rgba(255, 71, 87, 0.14);
+            border-color: var(--error);
+            animation: wrongShake 0.6s ease;
+        }
+
+        .option-media {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: inset 0 0 0 1px rgba(35, 44, 114, 0.12);
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-15px) rotate(-5deg); }
+            75% { transform: translateX(15px) rotate(5deg); }
+        }
+
+        .option-logo {
+            display: block;
+            width: 100%;
+            height: clamp(165px, 26vw, 220px);
+            object-fit: contain;
+            margin-bottom: 0;
+            filter: brightness(1.03) saturate(1.05);
+        }
+
+        .option-logo-fallback {
+            width: 100%;
+            height: clamp(165px, 26vw, 220px);
+            margin-bottom: 0;
+            border: 2px dashed rgba(35, 44, 114, 0.34);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            background: #ffffff;
+        }
+
+        .option-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* End Screens */
+        .end-screen {
+            text-align: center;
+        }
+
+        .end-card {
+            background: var(--surface-strong);
+            border: 2px solid var(--border-strong);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .end-actions {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .end-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            animation: fadeInScale 0.8s ease;
+        }
+
+        .end-title.victory {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .end-title.defeat {
+            color: var(--error);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            background: var(--surface-soft);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid var(--border-soft);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Audio Toggle */
+        .audio-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--surface-soft);
+            border: 2px solid var(--border-strong);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 24px rgba(28, 35, 90, 0.2);
+        }
+
+        .audio-toggle:hover {
+            background: var(--surface-strong);
+            transform: scale(1.1);
+        }
+
+        /* Feedback Messages */
+        .feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            padding: 40px 60px;
+            border-radius: 30px;
+            z-index: 2000;
+            pointer-events: none;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .feedback.show {
+            animation: feedbackPop 1s ease;
+        }
+
+        @keyframes feedbackPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            10% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            30% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            90% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, var(--success), #4A5DBE);
+            color: white;
+            box-shadow: 0 16px 36px rgba(47, 62, 147, 0.38);
+        }
+
+        .feedback.wrong {
+            background: linear-gradient(135deg, var(--error), #ff6b81);
+            color: white;
+            box-shadow: 0 16px 36px rgba(255, 71, 87, 0.36);
+        }
+
+        .high-score-popup {
+            position: fixed;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 2300;
+        }
+
+        .high-score-popup.show {
+            opacity: 1;
+        }
+
+        .high-score-card {
+            background: rgb(255 247 230 / 94%);
+            border: 3px solid rgba(255, 47, 93, 0.9);
+            border-radius: 999px;
+            box-shadow:
+                0 18px 36px rgba(17, 24, 71, 0.36),
+                0 0 24px rgba(255, 47, 93, 0.26);
+            padding: 16px 34px;
+            text-align: center;
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+        .high-score-popup.show .high-score-card {
+            animation: highScoreEnter 0.24s ease forwards;
+        }
+
+        @keyframes highScoreEnter {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .high-score-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.86rem, 2.4vw, 1.18rem);
+            letter-spacing: 0.08em;
+            line-height: 1.2;
+            color: var(--accent);
+            margin: 0;
+            text-shadow: 0 0 8px rgba(35, 44, 114, 0.2);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(35, 44, 114, 0.2);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .question-text {
+                font-size: 1.4rem;
+            }
+
+            .end-title {
+                font-size: 2rem;
+            }
+
+            .game-info {
+                padding: 20px;
+            }
+
+            .end-actions .btn {
+                width: min(100%, 320px);
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Audio Toggle -->
+    <div class="audio-toggle" id="audioToggle" title="Toggle Music">🔊</div>
+
+    <!-- Feedback Messages -->
+    <div class="feedback" id="feedback"></div>
+
+    <!-- High Score Popup -->
+    <div class="high-score-popup" id="highScorePopup" aria-live="polite" role="status">
+        <div class="high-score-card">
+            <p class="high-score-title">NEW HIGH SCORE!</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Landing Screen -->
+        <div class="screen active" id="landingScreen">
+            <div class="landing">
+                <h1 class="logo-title"><br>ZOGO<span class="logo-title-gap">CHALLENGE</span></h1>
+                <p class="subtitle">Test Your Zoho Logo Knowledge!</p>
+                
+                <div class="game-info">
+                    <h3>🎮 How to Play</h3>
+                    <div class="info-item">
+                        <span class="info-icon">🎯</span>
+                        <span>Identify the official logo from 4 image options</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⏱️</span>
+                        <span>10 seconds per question</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">❤️</span>
+                        <span>3 lives - don't lose them all!</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⭐</span>
+                        <span>+10 points correct | -5 points wrong</span>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="game.showPlayerEntry()">START GAME</button>
+            </div>
+        </div>
+
+        <!-- Player Entry Screen -->
+        <div class="screen" id="playerEntryScreen">
+            <div class="player-entry">
+                <div class="entry-card">
+                    <h2>Enter Player Details</h2>
+                    <form id="playerForm" onsubmit="game.startGame(event)">
+                        <div class="input-group">
+                            <label for="playerName">Player Name</label>
+                            <input 
+                                type="text" 
+                                id="playerName" 
+                                placeholder="Enter your name..."
+                                maxlength="20"
+                                required
+                            >
+                            <div class="error-msg" id="nameError">Name must be at least 2 characters</div>
+                        </div>
+                        <div class="input-group">
+                            <label for="playerEmail">Email</label>
+                            <input
+                                type="email"
+                                id="playerEmail"
+                                placeholder="Enter your email..."
+                                required
+                            >
+                            <div class="error-msg" id="emailError">Please enter a valid email address</div>
+                        </div>
+                        <button type="submit" class="btn">LET'S GO! 🚀</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="screen" id="gameScreen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="game-hud">
+                <div class="hud-item">
+                    <span style="font-size: 1.2rem; font-weight: 600;">SCORE:</span>
+                    <span class="score" id="score">0</span>
+                </div>
+
+                <div class="timer-container">
+                    <svg class="timer-circle" width="80" height="80">
+                        <circle class="timer-bg" cx="40" cy="40" r="32"></circle>
+                        <circle class="timer-progress" id="timerCircle" cx="40" cy="40" r="32" 
+                                stroke-dasharray="201" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-text" id="timerText">10</div>
+                </div>
+
+                <div class="hud-item">
+                    <span style="font-size: 1.2rem; font-weight: 600;">LIVES:</span>
+                    <div class="lives" id="lives">
+                        <span class="life">❤️</span>
+                        <span class="life">❤️</span>
+                        <span class="life">❤️</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <div class="question-counter" id="questionCounter">Question 1 of 6</div>
+                <h2 class="question-text" id="questionText">Loading...</h2>
+            </div>
+
+            <div class="options-grid" id="optionsGrid">
+                <!-- Options will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div class="screen" id="victoryScreen">
+            <div class="end-screen">
+                <div class="end-card">
+                    <h1 class="end-title victory">VICTORY! 🏆</h1>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--accent);">
+                        Congratulations, <span id="winnerName"></span>!
+                    </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="finalScore">0</div>
+                            <div class="stat-label">Final Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="correctAnswers">0</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="accuracy">100%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="game.restart()">PLAY AGAIN</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="screen" id="gameOverScreen">
+            <div class="end-screen">
+                <div class="end-card">
+                    <h1 class="end-title defeat">GAME OVER</h1>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--error);">
+                        Better luck next time, <span id="loserName"></span>!
+                    </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="gameOverScore">0</div>
+                            <div class="stat-label">Final Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="questionsAnswered">0</div>
+                            <div class="stat-label">Questions Answered</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="gameOverCorrect">0</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                    </div>
+                    <div class="end-actions">
+                        <button class="btn" onclick="game.tryAgain()">TRY AGAIN</button>
+                        <button class="btn btn-home" onclick="game.goHome()">HOME</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+
+    <script>
+        // Questions Database
+        const logoQuestionSeeds = [
+            {
+                product: "Zoho (Main)",
+                correct: "zoho.png",
+                decoys: ["zoho1.png", "zoho2.png", "zoho3.png"]
+            },
+            {
+                product: "Zoho Campaigns",
+                correct: "zoho-campaigns.png",
+                decoys: ["campaigns1.png", "campaigns2.png", "campaigns3.png"]
+            },
+            {
+                product: "Zoho Cliq",
+                correct: "zoho-cliq.png",
+                decoys: ["cliq1.png", "cliq2.png", "cliq3.png"]
+            },
+            {
+                product: "Zoho Connect",
+                correct: "zoho-connect.png",
+                decoys: ["connect1.png", "connect2.png", "connect3.png"]
+            },
+            {
+                product: "Zoho Expense",
+                correct: "zoho-expense.png",
+                decoys: ["expense1.png", "expense2.png", "expense3.png"]
+            },
+            {
+                product: "Zoho Sign",
+                correct: "zoho-sign.png",
+                decoys: ["sign1.png", "sign2.png", "sign3.png"]
+            },
+            {
+                product: "Zoho Flow",
+                correct: "zoho-flow.png",
+                decoys: ["flow1.png", "flow2.png", "flow3.png"]
+            },
+            {
+                    product: "Zoho Forms",
+                    correct: "zoho-forms.png",
+                    decoys: ["forms1.png", "forms2.png", "forms3.png"]
+                },
+                {
+                    product: "Zoho Invoice",
+                    correct: "zoho-invoice.png",
+                    decoys: ["invoice1.png", "invoice2.png", "invoice3.png"]
+                },
+                {
+                    product: "Zoho People",
+                    correct: "zoho-people.png",
+                    decoys: ["people1.png", "people2.png", "people3.png"]
+                },
+                {
+                    product: "Zoho Projects",
+                    correct: "zoho-projects.png",
+                    decoys: ["projects1.png", "projects2.png", "projects3.png"]
+                },
+                {
+                    product: "Zoho Recruit",
+                    correct: "zoho-recruite.png",
+                    decoys: ["recruite1.png", "recruite2.png", "recruite3.png"]
+                },
+                {
+                    product: "Zoho Subscriptions",
+                    correct: "zoho-subscriptions.png",
+                    decoys: ["subscriptions1.png", "subscriptions2.png", "subscriptions3.png"]
+                },
+                {
+                    product: "Zoho Analytics",
+                    correct: "zoho-analytics.png",
+                    decoys: ["analytics1.png", "analytics2.png", "analytics3.png"]
+                },
+                {
+                    product: "Zoho Assist",
+                    correct: "zoho-assist.png",
+                    decoys: ["assists1.png", "assists2.png", "assists3.png"]
+                },
+                {
+                    product: "Zoho Books",
+                    correct: "zoho-books.png",
+                    decoys: ["books1.png", "books2.png", "books3.png"]
+                },
+                {
+                    product: "Zoho Backstage",
+                    correct: "zoho-backstage.png",
+                    decoys: ["backstage1.png", "backstage2.png", "backstage3.png"]
+                },
+                {
+                    product: "Zoho CRM",
+                    correct: "zoho-crm.png",
+                    decoys: ["crm1.png", "crm2.png", "crm3.png"]
+                },
+                {
+                    product: "Zoho Payroll",
+                    correct: "zoho-payroll.png",
+                    decoys: ["payroll1.png", "payroll2.png", "payroll3.png"]
+                },
+                {
+                    product: "Zoho SalesIQ",
+                    correct: "zoho-salesiq.png",
+                    decoys: ["salesiq1.png", "salesiq2.png", "salesiq3.png"]
+                },
+                {
+                    product: "Zoho Social",
+                    correct: "zoho-social.png",
+                    decoys: ["social1.png", "social2.png", "social3.png"]
+                },
+                {
+                    product: "Zoho Writer",
+                    correct: "zoho-writer.png",
+                    decoys: ["writer1.png", "writer2.png", "writer3.png"]
+                }, 
+                {
+                    product: "Zoho Sheet",
+                    correct: "zoho-sheet.png",
+                    decoys: ["sheet1.png", "sheet2.png", "sheet3.png"]
+                },
+                {
+                    product: "Zoho Show",
+                    correct: "zoho-show.png",
+                    decoys: ["show1.png", "show2.png", "show3.png"]
+                },
+                {
+                    product: "Zoho Mail",
+                    correct: "zoho-mail.png",
+                    decoys: ["mail1.png", "mail2.png", "mail3.png"]
+                },
+                {
+                    product: "Zoho Meeting",
+                    correct: "zoho-meeting.png",
+                    decoys: ["meeting1.png", "meeting2.png", "meeting3.png"]
+                },
+                {
+                    product: "Zoho Creator",
+                    correct: "zoho-creator.png",
+                    decoys: ["creator1.png", "creator2.png", "creator3.png"]
+                },
+                {
+                    product: "Zoho Desk",
+                    correct: "zoho-desk.png",
+                    decoys: ["desk1.png", "desk2.png", "desk3.png"]
+                },
+                {
+                    product: "Zoho Inventory",
+                    correct: "zoho-inventory.png",
+                    decoys: ["inventory1.png", "inventory2.png", "inventory3.png"]
+                },
+                {
+                    product: "Zoho Orchestrator",
+                    correct: "zoho-orchestrator.png",
+                    decoys: ["orchestrator1.png", "orchestrator2.png", "orchestrator3.png"]
+                },
+                {
+                    product: "Zoho Vault",
+                    correct: "zoho-vault.png",
+                    decoys: ["vault1.png", "vault2.png", "vault3.png"]
+                },
+                {
+                    product: "Zoho Dataprep",
+                    correct: "zoho-dataprep.png",
+                    decoys: ["dataprep1.png", "dataprep2.png", "dataprep3.png"]
+                }
+        ];
+
+        const questions = logoQuestionSeeds.map((item) => ({
+            question: `Select the official logo for ${item.product}`,
+            correct: item.correct,
+            options: [
+                { src: item.correct, alt: `${item.product} official logo` },
+                ...item.decoys.map((src, index) => ({
+                    src,
+                    alt: `${item.product} sample option ${index + 1}`
+                }))
+            ]
+        }));
+        const PLAYER_PROFILE_KEY = 'zohoPlayerProfile';
+
+        // Game State Management
+        const game = {
+            state: {
+                playerName: '',
+                playerEmail: '',
+                currentQuestion: 0,
+                score: 0,
+                lives: 3,
+                correctCount: 0,
+                totalAnswered: 0,
+                timer: null,
+                timeLeft: 10,
+                isAnswering: false,
+                musicEnabled: true,
+                isSavingResult: false,
+                resultSaved: false,
+                highScorePopupTimer: null,
+                processedImageCache: {},
+                questions: []
+            },
+
+            init() {
+                this.createParticles();
+                this.loadPlayerProfile();
+                this.loadState();
+                this.setupAudio();
+            },
+
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 15 + 's';
+                    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            },
+
+            setupAudio() {
+                const audioToggle = document.getElementById('audioToggle');
+                const bgMusic = document.getElementById('bgMusic');
+
+                audioToggle.addEventListener('click', () => {
+                    this.state.musicEnabled = !this.state.musicEnabled;
+                    audioToggle.textContent = this.state.musicEnabled ? '🔊' : '🔇';
+                    
+                    if (this.state.musicEnabled) {
+                        bgMusic.play().catch(() => {});
+                    } else {
+                        bgMusic.pause();
+                    }
+                    
+                    this.saveState();
+                });
+
+                // Auto-play if enabled
+                if (this.state.musicEnabled) {
+                    bgMusic.play().catch(() => {});
+                }
+            },
+
+            showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(screenId).classList.add('active');
+            },
+
+            showPlayerEntry() {
+                this.showScreen('playerEntryScreen');
+                document.getElementById('playerName').focus();
+            },
+
+            startGame(event) {
+                event.preventDefault();
+                const nameInput = document.getElementById('playerName');
+                const emailInput = document.getElementById('playerEmail');
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const nameError = document.getElementById('nameError');
+                const emailError = document.getElementById('emailError');
+
+                let isValid = true;
+                if (name.length < 2) {
+                    nameError.classList.add('show');
+                    nameInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    nameError.classList.remove('show');
+                    nameInput.classList.remove('error');
+                }
+
+                if (!this.validateEmail(email)) {
+                    emailError.classList.add('show');
+                    emailInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    emailError.classList.remove('show');
+                    emailInput.classList.remove('error');
+                }
+
+                if (!isValid) return;
+
+                this.state.playerName = name;
+                this.state.playerEmail = email;
+                this.state.currentQuestion = 0;
+                this.state.score = 0;
+                this.state.lives = 3;
+                this.state.correctCount = 0;
+                this.state.totalAnswered = 0;
+                this.state.isSavingResult = false;
+                this.state.resultSaved = false;
+                this.state.questions = this.shuffleArray([...questions]);
+                this.hideHighScorePopup();
+                this.savePlayerProfile();
+                
+                this.saveState();
+                this.showScreen('gameScreen');
+                this.loadQuestion();
+            },
+
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            },
+
+            validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            },
+
+            getBackgroundRemovedImage(src) {
+                if (this.state.processedImageCache[src]) {
+                    return Promise.resolve(this.state.processedImageCache[src]);
+                }
+
+                return new Promise((resolve) => {
+                    const image = new Image();
+                    image.onload = () => {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = image.naturalWidth || image.width;
+                            canvas.height = image.naturalHeight || image.height;
+
+                            const context = canvas.getContext('2d');
+                            context.drawImage(image, 0, 0);
+
+                            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                            const pixels = imageData.data;
+
+                            for (let i = 0; i < pixels.length; i += 4) {
+                                const r = pixels[i];
+                                const g = pixels[i + 1];
+                                const b = pixels[i + 2];
+                                const a = pixels[i + 3];
+
+                                if (a === 0) continue;
+
+                                const max = Math.max(r, g, b);
+                                const min = Math.min(r, g, b);
+                                const nearWhite = r > 210 && g > 210 && b > 210;
+                                const lowSaturation = (max - min) < 28;
+
+                                if (nearWhite && lowSaturation) {
+                                    pixels[i + 3] = 0;
+                                }
+                            }
+
+                            context.putImageData(imageData, 0, 0);
+                            const processed = canvas.toDataURL('image/png');
+                            this.state.processedImageCache[src] = processed;
+                            resolve(processed);
+                        } catch (error) {
+                            resolve(src);
+                        }
+                    };
+
+                    image.onerror = () => resolve(src);
+                    image.src = src;
+                });
+            },
+
+            loadQuestion() {
+                if (this.state.currentQuestion >= this.state.questions.length) {
+                    this.showVictory();
+                    return;
+                }
+
+                const question = this.state.questions[this.state.currentQuestion];
+                
+                // Update UI
+                document.getElementById('questionCounter').textContent = 
+                    `Question ${this.state.currentQuestion + 1} of ${this.state.questions.length}`;
+                document.getElementById('questionText').textContent = question.question;
+                document.getElementById('score').textContent = this.state.score;
+                
+                // Update progress bar
+                const progress = ((this.state.currentQuestion) / this.state.questions.length) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+
+                // Update lives
+                const livesContainer = document.getElementById('lives');
+                livesContainer.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    const life = document.createElement('span');
+                    life.className = 'life' + (i >= this.state.lives ? ' lost' : '');
+                    life.textContent = '❤️';
+                    livesContainer.appendChild(life);
+                }
+
+                // Render options
+                this.renderOptions(question);
+
+                // Start timer
+                this.state.isAnswering = false;
+                this.startTimer();
+            },
+
+            renderOptions(question) {
+                const grid = document.getElementById('optionsGrid');
+                const shuffledOptions = this.shuffleArray(question.options);
+
+                grid.innerHTML = '';
+                shuffledOptions.forEach((option) => {
+                    const card = document.createElement('div');
+                    card.className = 'option-card';
+                    card.dataset.src = option.src;
+                    card.tabIndex = 0;
+                    card.setAttribute('role', 'button');
+                    card.setAttribute('aria-label', option.alt);
+
+                    const media = document.createElement('div');
+                    media.className = 'option-media';
+
+                    const logoImage = document.createElement('img');
+                    logoImage.className = 'option-logo';
+                    logoImage.alt = option.alt;
+                    logoImage.loading = 'lazy';
+
+                    const fallback = document.createElement('div');
+                    fallback.className = 'option-logo-fallback';
+                    fallback.textContent = 'IMAGE';
+                    fallback.style.display = 'none';
+
+                    logoImage.onerror = () => {
+                        logoImage.style.display = 'none';
+                        fallback.style.display = 'flex';
+                    };
+
+                    this.getBackgroundRemovedImage(option.src).then((processedSrc) => {
+                        logoImage.src = processedSrc;
+                    });
+
+                    card.addEventListener('click', () => this.selectAnswer(option.src));
+                    card.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            this.selectAnswer(option.src);
+                        }
+                    });
+
+                    media.appendChild(logoImage);
+                    media.appendChild(fallback);
+                    card.appendChild(media);
+                    grid.appendChild(card);
+                });
+            },
+
+            startTimer() {
+                this.state.timeLeft = 10;
+                const timerCircle = document.getElementById('timerCircle');
+                const timerText = document.getElementById('timerText');
+                const circumference = 201;
+
+                if (this.state.timer) {
+                    clearInterval(this.state.timer);
+                }
+
+                timerCircle.classList.remove('warning');
+                timerText.textContent = '10';
+                timerCircle.style.strokeDashoffset = '0';
+
+                this.state.timer = setInterval(() => {
+                    this.state.timeLeft--;
+                    timerText.textContent = this.state.timeLeft;
+                    
+                    const offset = (circumference * (10 - this.state.timeLeft)) / 10;
+                    timerCircle.style.strokeDashoffset = offset;
+
+                    if (this.state.timeLeft <= 3) {
+                        timerCircle.classList.add('warning');
+                    }
+
+                    if (this.state.timeLeft <= 0) {
+                        clearInterval(this.state.timer);
+                        if (!this.state.isAnswering) {
+                            this.timeout();
+                        }
+                    }
+                }, 1000);
+            },
+
+            selectAnswer(answer) {
+                if (this.state.isAnswering) return;
+                
+                this.state.isAnswering = true;
+                clearInterval(this.state.timer);
+
+                const question = this.state.questions[this.state.currentQuestion];
+                const isCorrect = answer === question.correct;
+                const cards = document.querySelectorAll('.option-card');
+
+                // Visual feedback
+                cards.forEach(card => {
+                    const cardSrc = card.dataset.src;
+                    if (cardSrc === answer) {
+                        card.classList.add(isCorrect ? 'correct' : 'wrong');
+                    }
+                    if (cardSrc === question.correct && !isCorrect) {
+                        card.classList.add('correct');
+                    }
+                    card.classList.add('disabled');
+                });
+
+                // Show feedback
+                this.showFeedback(isCorrect);
+
+                // Update score and stats
+                this.state.totalAnswered++;
+                if (isCorrect) {
+                    this.state.score += 10;
+                    this.state.correctCount++;
+                    this.animateScore();
+                } else {
+                    this.state.lives--;
+                    this.state.score = Math.max(0, this.state.score - 5);
+                    
+                    if (this.state.lives === 0) {
+                        setTimeout(() => this.showGameOver(), 1500);
+                        return;
+                    }
+                }
+
+                this.saveState();
+
+                // Next question
+                setTimeout(() => {
+                    this.state.currentQuestion++;
+                    this.loadQuestion();
+                }, 1500);
+            },
+
+            timeout() {
+                this.state.isAnswering = true;
+                this.state.totalAnswered++;
+                this.state.lives--;
+                this.state.score = Math.max(0, this.state.score - 5);
+
+                const question = this.state.questions[this.state.currentQuestion];
+                const cards = document.querySelectorAll('.option-card');
+
+                cards.forEach(card => {
+                    if (card.dataset.src === question.correct) {
+                        card.classList.add('correct');
+                    }
+                    card.classList.add('disabled');
+                });
+
+                this.showFeedback(false, 'TIME OUT!');
+
+                if (this.state.lives === 0) {
+                    setTimeout(() => this.showGameOver(), 1500);
+                    return;
+                }
+
+                this.saveState();
+
+                setTimeout(() => {
+                    this.state.currentQuestion++;
+                    this.loadQuestion();
+                }, 1500);
+            },
+
+            showFeedback(isCorrect, customText = null) {
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = customText || (isCorrect ? 'CORRECT! ✓' : 'WRONG! ✗');
+                feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+                
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 1000);
+            },
+
+            animateScore() {
+                const scoreElement = document.getElementById('score');
+                scoreElement.classList.add('pulse');
+                setTimeout(() => scoreElement.classList.remove('pulse'), 500);
+            },
+
+            savePlayerProfile() {
+                try {
+                    if (this.state.playerName && this.state.playerEmail) {
+                        localStorage.setItem(
+                            PLAYER_PROFILE_KEY,
+                            JSON.stringify({
+                                playerName: this.state.playerName,
+                                playerEmail: this.state.playerEmail
+                            })
+                        );
+                    }
+                } catch (error) {
+                    console.log('Could not save player profile');
+                }
+            },
+
+            loadPlayerProfile() {
+                try {
+                    const raw = localStorage.getItem(PLAYER_PROFILE_KEY);
+                    if (!raw) return;
+
+                    const profile = JSON.parse(raw);
+                    const name = typeof profile?.playerName === 'string' ? profile.playerName.trim() : '';
+                    const email = typeof profile?.playerEmail === 'string' ? profile.playerEmail.trim() : '';
+
+                    if (name.length >= 2 && this.validateEmail(email)) {
+                        this.state.playerName = name;
+                        this.state.playerEmail = email;
+
+                        const nameInput = document.getElementById('playerName');
+                        const emailInput = document.getElementById('playerEmail');
+                        if (nameInput) nameInput.value = name;
+                        if (emailInput) emailInput.value = email;
+                    }
+                } catch (error) {
+                    console.log('Could not load player profile');
+                }
+            },
+
+            clearPlayerProfile() {
+                try {
+                    localStorage.removeItem(PLAYER_PROFILE_KEY);
+                } catch (error) {
+                    console.log('Could not clear player profile');
+                }
+            },
+
+            hideHighScorePopup() {
+                const popup = document.getElementById('highScorePopup');
+                if (!popup) return;
+                popup.classList.remove('show');
+
+                if (this.state.highScorePopupTimer) {
+                    clearTimeout(this.state.highScorePopupTimer);
+                    this.state.highScorePopupTimer = null;
+                }
+            },
+
+            showHighScorePopup() {
+                const popup = document.getElementById('highScorePopup');
+                if (!popup) return;
+
+                popup.classList.add('show');
+
+                if (this.state.highScorePopupTimer) {
+                    clearTimeout(this.state.highScorePopupTimer);
+                }
+
+                this.state.highScorePopupTimer = setTimeout(() => {
+                    popup.classList.remove('show');
+                    this.state.highScorePopupTimer = null;
+                }, 5200);
+            },
+
+            buildResultPayload(outcome) {
+                const totalAnswered = this.state.totalAnswered;
+                const accuracy = Math.round((this.state.correctCount / totalAnswered) * 100) || 0;
+                return {
+                    playerName: this.state.playerName,
+                    playerEmail: this.state.playerEmail,
+                    score: this.state.score,
+                    correctCount: this.state.correctCount,
+                    totalAnswered,
+                    accuracy,
+                    outcome
+                };
+            },
+
+            async fetchCurrentTopScore() {
+                try {
+                    const response = await this.fetchWithTimeout('/api/results?limit=1&sort=leaderboard', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    }, 5000);
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch top score (${response.status})`);
+                    }
+
+                    const data = await response.json();
+                    const topScore = Number(data?.results?.[0]?.score);
+                    if (!Number.isFinite(topScore)) return 0;
+                    return Math.max(0, Math.floor(topScore));
+                } catch (error) {
+                    console.warn('Could not fetch current top score.', error);
+                    return null;
+                }
+            },
+
+            async fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+                try {
+                    return await fetch(url, {
+                        ...options,
+                        signal: controller.signal
+                    });
+                } finally {
+                    clearTimeout(timeout);
+                }
+            },
+
+            async saveResult(payload) {
+                if (this.state.resultSaved || this.state.isSavingResult) {
+                    return true;
+                }
+
+                this.state.isSavingResult = true;
+
+                try {
+                    const maxAttempts = 4;
+                    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+                        try {
+                            const response = await this.fetchWithTimeout('/api/results', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`Failed to save result (${response.status})`);
+                            }
+
+                            this.state.resultSaved = true;
+                            return true;
+                        } catch (error) {
+                            if (attempt === maxAttempts) {
+                                throw error;
+                            }
+                            await new Promise((resolve) => setTimeout(resolve, attempt * 250));
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Could not save game result to the database.', error);
+                    return false;
+                } finally {
+                    this.state.isSavingResult = false;
+                }
+            },
+
+            async persistResultAndMaybeShowHighScore(outcome) {
+                const payload = this.buildResultPayload(outcome);
+                const previousTopScore = await this.fetchCurrentTopScore();
+                const saved = await this.saveResult(payload);
+
+                if (!saved) return;
+                if (typeof previousTopScore !== 'number') return;
+                if (payload.score <= previousTopScore) return;
+
+                this.showHighScorePopup();
+            },
+
+            showVictory() {
+                this.persistResultAndMaybeShowHighScore('victory');
+                document.getElementById('winnerName').textContent = this.state.playerName;
+                document.getElementById('finalScore').textContent = this.state.score;
+                document.getElementById('correctAnswers').textContent = this.state.correctCount;
+                const accuracy = Math.round((this.state.correctCount / this.state.totalAnswered) * 100) || 0;
+                document.getElementById('accuracy').textContent = accuracy + '%';
+                
+                this.showScreen('victoryScreen');
+                this.clearState();
+            },
+
+            showGameOver() {
+                this.persistResultAndMaybeShowHighScore('game_over');
+                document.getElementById('loserName').textContent = this.state.playerName;
+                document.getElementById('gameOverScore').textContent = this.state.score;
+                document.getElementById('questionsAnswered').textContent = this.state.totalAnswered;
+                document.getElementById('gameOverCorrect').textContent = this.state.correctCount;
+                
+                this.showScreen('gameOverScreen');
+                this.clearState();
+            },
+
+            tryAgain() {
+                if (this.state.timer) {
+                    clearInterval(this.state.timer);
+                    this.state.timer = null;
+                }
+
+                this.hideHighScorePopup();
+                this.loadPlayerProfile();
+
+                if (this.state.playerName.trim().length < 2 || !this.validateEmail(this.state.playerEmail)) {
+                    this.showPlayerEntry();
+                    return;
+                }
+
+                this.state.currentQuestion = 0;
+                this.state.score = 0;
+                this.state.lives = 3;
+                this.state.correctCount = 0;
+                this.state.totalAnswered = 0;
+                this.state.timeLeft = 10;
+                this.state.isAnswering = false;
+                this.state.isSavingResult = false;
+                this.state.resultSaved = false;
+                this.state.questions = this.shuffleArray([...questions]);
+
+                this.savePlayerProfile();
+                this.saveState();
+                this.showScreen('gameScreen');
+                this.loadQuestion();
+            },
+
+            goHome() {
+                if (this.state.timer) {
+                    clearInterval(this.state.timer);
+                    this.state.timer = null;
+                }
+
+                this.hideHighScorePopup();
+                this.showScreen('landingScreen');
+                this.state.playerName = '';
+                this.state.playerEmail = '';
+                this.state.currentQuestion = 0;
+                this.state.score = 0;
+                this.state.lives = 3;
+                this.state.correctCount = 0;
+                this.state.totalAnswered = 0;
+                this.state.timeLeft = 10;
+                this.state.isAnswering = false;
+                this.state.isSavingResult = false;
+                this.state.resultSaved = false;
+                this.state.questions = [];
+
+                this.clearState();
+                this.clearPlayerProfile();
+
+                const nameInput = document.getElementById('playerName');
+                const emailInput = document.getElementById('playerEmail');
+                if (nameInput) nameInput.value = '';
+                if (emailInput) emailInput.value = '';
+            },
+
+            restart() {
+                this.goHome();
+            },
+
+            saveState() {
+                try {
+                    localStorage.setItem('zohoGameState', JSON.stringify({
+                        schemaVersion: 2,
+                        playerName: this.state.playerName,
+                        playerEmail: this.state.playerEmail,
+                        currentQuestion: this.state.currentQuestion,
+                        score: this.state.score,
+                        lives: this.state.lives,
+                        correctCount: this.state.correctCount,
+                        totalAnswered: this.state.totalAnswered,
+                        questions: this.state.questions,
+                        musicEnabled: this.state.musicEnabled
+                    }));
+                } catch (e) {
+                    console.log('Could not save state');
+                }
+            },
+
+            isValidSavedQuestions(savedQuestions) {
+                return Array.isArray(savedQuestions) && savedQuestions.length > 0 &&
+                    savedQuestions.every((q) =>
+                        q &&
+                        typeof q.question === 'string' &&
+                        typeof q.correct === 'string' &&
+                        Array.isArray(q.options) &&
+                        q.options.length >= 2 &&
+                        q.options.every((option) => option && typeof option.src === 'string')
+                    );
+            },
+
+            loadState() {
+                try {
+                    const saved = localStorage.getItem('zohoGameState');
+                    if (saved) {
+                        const state = JSON.parse(saved);
+
+                        const hasValidQuestions = this.isValidSavedQuestions(state.questions);
+                        const hasValidProgress =
+                            typeof state.currentQuestion === 'number' &&
+                            typeof state.lives === 'number' &&
+                            state.currentQuestion > 0 &&
+                            state.lives > 0 &&
+                            state.currentQuestion < (state.questions?.length || 0);
+
+                        if (hasValidQuestions && hasValidProgress) {
+                            Object.assign(this.state, {
+                                ...state,
+                                playerEmail: state.playerEmail || ''
+                            });
+                            
+                            // Resume game
+                            this.showScreen('gameScreen');
+                            this.loadQuestion();
+                            
+                            // Update audio toggle
+                            document.getElementById('audioToggle').textContent = 
+                                this.state.musicEnabled ? '🔊' : '🔇';
+                        } else {
+                            this.clearState();
+                        }
+                    }
+                } catch (e) {
+                    console.log('Could not load state');
+                    this.clearState();
+                }
+            },
+
+            clearState() {
+                try {
+                    localStorage.removeItem('zohoGameState');
+                } catch (e) {
+                    console.log('Could not clear state');
+                }
+            }
+        };
+
+        // Initialize game when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            game.init();
+        });
+
+        // Real-time validation for player details
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('playerName');
+            const emailInput = document.getElementById('playerEmail');
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+
+            nameInput?.addEventListener('input', () => {
+                if (nameInput.value.trim().length >= 2) {
+                    nameError.classList.remove('show');
+                    nameInput.classList.remove('error');
+                }
+            });
+
+            emailInput?.addEventListener('input', () => {
+                if (game.validateEmail(emailInput.value.trim())) {
+                    emailError.classList.remove('show');
+                    emailInput.classList.remove('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

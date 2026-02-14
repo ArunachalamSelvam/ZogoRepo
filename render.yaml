@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: loho-quiz
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      - key: FIREBASE_CREDENTIALS
+        sync: false  # Paste your Firebase service account JSON (or base64-encoded)
+      - key: PORT
+        value: 8000

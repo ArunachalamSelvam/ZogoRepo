@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+venv/
+.env
+
+# SQLite (local dev only — production uses PostgreSQL)
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# macOS
+.DS_Store

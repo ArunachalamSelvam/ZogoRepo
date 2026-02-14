@@ -979,8 +979,8 @@
         </div>
     </div>
 
-    <audio id="bgMusic" loop>
-        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    <audio id="bgMusic" loop preload="auto">
+        <source src="Mankatha.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -1162,6 +1162,161 @@
         }));
         const PLAYER_PROFILE_KEY = 'zohoPlayerProfile';
 
+        // ── Sound Manager ─────────────────────────────────────────
+        const SFX = {
+            _ctx: null,
+            enabled: true,
+
+            _ensureCtx() {
+                if (!this._ctx) {
+                    this._ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (this._ctx.state === 'suspended') this._ctx.resume();
+                return this._ctx;
+            },
+
+            _tone(type, freq, start, dur, vol = 0.25) {
+                const ctx = this._ensureCtx();
+                const osc = ctx.createOscillator();
+                const g   = ctx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                g.gain.setValueAtTime(vol, start);
+                g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+                osc.connect(g).connect(ctx.destination);
+                osc.start(start);
+                osc.stop(start + dur);
+            },
+
+            _sweep(startF, endF, start, dur, vol = 0.18) {
+                const ctx = this._ensureCtx();
+                const osc = ctx.createOscillator();
+                const g   = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(startF, start);
+                osc.frequency.exponentialRampToValueAtTime(endF, start + dur * 0.85);
+                g.gain.setValueAtTime(vol, start);
+                g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+                osc.connect(g).connect(ctx.destination);
+                osc.start(start);
+                osc.stop(start + dur);
+            },
+
+            /* ── individual sounds ── */
+
+            gameStart() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                // Rising sweep
+                this._sweep(220, 880, t, 0.6, 0.2);
+                // Bright resolve chord  C5 – E5 – G5
+                this._tone('sine', 523.25, t + 0.35, 0.45, 0.22);
+                this._tone('sine', 659.25, t + 0.42, 0.40, 0.20);
+                this._tone('sine', 783.99, t + 0.48, 0.50, 0.24);
+                // Sparkle overtone
+                this._tone('sine', 1567.98, t + 0.50, 0.35, 0.06);
+            },
+
+            correct() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                // Quick ascending chime  C5 → E5 → G5
+                this._tone('sine', 523.25, t,        0.18, 0.22);
+                this._tone('sine', 659.25, t + 0.09, 0.18, 0.22);
+                this._tone('sine', 783.99, t + 0.18, 0.30, 0.28);
+                // Shimmer
+                this._tone('sine', 1046.50, t + 0.20, 0.30, 0.08);
+                this._tone('triangle', 1318.51, t + 0.22, 0.25, 0.05);
+            },
+
+            wrong() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                // Harsh descending buzz
+                const ctx = this._ctx;
+                const osc = ctx.createOscillator();
+                const g   = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(340, t);
+                osc.frequency.exponentialRampToValueAtTime(120, t + 0.38);
+                g.gain.setValueAtTime(0.13, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.40);
+                osc.connect(g).connect(ctx.destination);
+                osc.start(t);
+                osc.stop(t + 0.42);
+                // Low thud
+                this._tone('sine', 90, t + 0.05, 0.30, 0.18);
+                this._tone('square', 150, t + 0.02, 0.25, 0.06);
+            },
+
+            timeout() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                // Urgent triple beep
+                this._tone('square', 880, t,        0.10, 0.18);
+                this._tone('square', 880, t + 0.16, 0.10, 0.18);
+                this._tone('square', 660, t + 0.32, 0.22, 0.14);
+                // Low warning rumble
+                this._tone('sine', 110, t + 0.10, 0.35, 0.10);
+            },
+
+            victory() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                // Triumphant ascending fanfare  C5 → E5 → G5 → C6
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((f, i) => {
+                    this._tone('sine',     f,       t + i * 0.14, 0.45, 0.22);
+                    this._tone('triangle', f * 1.5, t + i * 0.14, 0.30, 0.06);
+                });
+                // Sustained bright chord
+                this._tone('sine', 1046.50, t + 0.56, 0.9, 0.20);
+                this._tone('sine', 1318.51, t + 0.62, 0.8, 0.12);
+                this._tone('sine', 1567.98, t + 0.68, 0.7, 0.08);
+            },
+
+            gameOver() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                // Sad descending  C5 → A4 → F4 → C4
+                const notes = [523.25, 440.00, 349.23, 261.63];
+                notes.forEach((f, i) => {
+                    this._tone('sine', f, t + i * 0.22, 0.40, 0.20);
+                });
+                // Low resolve
+                this._tone('sine', 130.81, t + 0.88, 1.0, 0.14);
+                this._tone('triangle', 130.81, t + 0.90, 0.8, 0.06);
+            },
+
+            tick() {
+                if (!this.enabled) return;
+                const t = this._ensureCtx().currentTime;
+                this._tone('sine', 1200, t, 0.04, 0.08);
+            }
+        };
+
+        // ── Background Music Controller ───────────────────────────
+        const BGMusic = {
+            el: document.getElementById('bgMusic'),
+            _ready: false,
+
+            init() {
+                this.el.volume = 0.15;
+                this._ready = true;
+            },
+
+            play() {
+                if (!this._ready) this.init();
+                if (!SFX.enabled) return;
+                this.el.currentTime = 0;
+                this.el.play().catch(() => {});
+            },
+
+            pause()  { this.el.pause(); },
+            resume() { if (SFX.enabled) this.el.play().catch(() => {}); },
+            stop()   { this.el.pause(); this.el.currentTime = 0; }
+        };
+
         // Game State Management
         const game = {
             state: {
@@ -1205,25 +1360,22 @@
 
             setupAudio() {
                 const audioToggle = document.getElementById('audioToggle');
-                const bgMusic = document.getElementById('bgMusic');
+                SFX.enabled = this.state.musicEnabled;
+                BGMusic.init();
 
                 audioToggle.addEventListener('click', () => {
                     this.state.musicEnabled = !this.state.musicEnabled;
+                    SFX.enabled = this.state.musicEnabled;
                     audioToggle.textContent = this.state.musicEnabled ? '🔊' : '🔇';
                     
                     if (this.state.musicEnabled) {
-                        bgMusic.play().catch(() => {});
+                        BGMusic.resume();
                     } else {
-                        bgMusic.pause();
+                        BGMusic.pause();
                     }
                     
                     this.saveState();
                 });
-
-                // Auto-play if enabled
-                if (this.state.musicEnabled) {
-                    bgMusic.play().catch(() => {});
-                }
             },
 
             showScreen(screenId) {
@@ -1282,6 +1434,10 @@
                 this.saveState();
                 this.showScreen('gameScreen');
                 this.loadQuestion();
+
+                // Audio: start background music + game start SFX
+                SFX.gameStart();
+                BGMusic.play();
             },
 
             shuffleArray(array) {
@@ -1465,6 +1621,7 @@
 
                     if (this.state.timeLeft <= 3) {
                         timerCircle.classList.add('warning');
+                        if (this.state.timeLeft > 0) SFX.tick();
                     }
 
                     if (this.state.timeLeft <= 0) {
@@ -1498,8 +1655,9 @@
                     card.classList.add('disabled');
                 });
 
-                // Show feedback
+                // Show feedback + play SFX
                 this.showFeedback(isCorrect);
+                if (isCorrect) { SFX.correct(); } else { SFX.wrong(); }
 
                 // Update score and stats
                 this.state.totalAnswered++;
@@ -1543,6 +1701,7 @@
                 });
 
                 this.showFeedback(false, 'TIME OUT!');
+                SFX.timeout();
 
                 if (this.state.lives === 0) {
                     setTimeout(() => this.showGameOver(), 1500);
@@ -1751,6 +1910,8 @@
             },
 
             showVictory() {
+                BGMusic.stop();
+                SFX.victory();
                 this.persistResultAndMaybeShowHighScore('victory');
                 document.getElementById('winnerName').textContent = this.state.playerName;
                 document.getElementById('finalScore').textContent = this.state.score;
@@ -1763,6 +1924,8 @@
             },
 
             showGameOver() {
+                BGMusic.stop();
+                SFX.gameOver();
                 this.persistResultAndMaybeShowHighScore('game_over');
                 document.getElementById('loserName').textContent = this.state.playerName;
                 document.getElementById('gameOverScore').textContent = this.state.score;
@@ -1802,6 +1965,9 @@
                 this.saveState();
                 this.showScreen('gameScreen');
                 this.loadQuestion();
+
+                SFX.gameStart();
+                BGMusic.play();
             },
 
             goHome() {
@@ -1810,6 +1976,7 @@
                     this.state.timer = null;
                 }
 
+                BGMusic.stop();
                 this.hideHighScorePopup();
                 this.showScreen('landingScreen');
                 this.state.playerName = '';
@@ -1893,9 +2060,11 @@
                             this.showScreen('gameScreen');
                             this.loadQuestion();
                             
-                            // Update audio toggle
+                            // Update audio toggle + resume music
+                            SFX.enabled = this.state.musicEnabled;
                             document.getElementById('audioToggle').textContent = 
                                 this.state.musicEnabled ? '🔊' : '🔇';
+                            BGMusic.play();
                         } else {
                             this.clearState();
                         }

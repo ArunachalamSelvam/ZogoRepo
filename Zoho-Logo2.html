@@ -979,10 +979,6 @@
         </div>
     </div>
 
-    <audio id="bgMusic" loop preload="auto">
-        <source src="Mankatha.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
         // Questions Database
         const logoQuestionSeeds = [
@@ -1295,26 +1291,143 @@
             }
         };
 
-        // ── Background Music Controller ───────────────────────────
+        // ── Procedural Background Music (Web Audio API) ──────────
+        // 4-bar loop: Cm → Fm → Ab → G  |  100 BPM  |  8th-note arpeggio
         const BGMusic = {
-            el: document.getElementById('bgMusic'),
-            _ready: false,
+            _playing: false,
+            _tid: null,
+            _next: 0,
+            _step: 0,
+            _live: [],
+            _gain: null,
+            _bpm: 100,
 
-            init() {
-                this.el.volume = 0.15;
-                this._ready = true;
-            },
+            // 32 eighth-notes = 4 bars @ 100 BPM ≈ 9.6 s loop
+            _arp: [
+                /* Bar 1 – Cm  */ 261.63, 311.13, 392.00, 523.25, 392.00, 311.13, 261.63, 196.00,
+                /* Bar 2 – Fm  */ 174.61, 207.65, 261.63, 349.23, 261.63, 207.65, 174.61, 261.63,
+                /* Bar 3 – Ab  */ 207.65, 261.63, 311.13, 415.30, 311.13, 261.63, 207.65, 311.13,
+                /* Bar 4 – G   */ 196.00, 246.94, 293.66, 392.00, 293.66, 246.94, 196.00, 293.66
+            ],
+
+            init() { /* no-op, setup happens in play() */ },
 
             play() {
-                if (!this._ready) this.init();
-                if (!SFX.enabled) return;
-                this.el.currentTime = 0;
-                this.el.play().catch(() => {});
+                if (this._playing || !SFX.enabled) return;
+                const ctx = SFX._ensureCtx();
+                this._playing = true;
+                this._step = 0;
+
+                // Master bus
+                this._gain = ctx.createGain();
+                this._gain.gain.setValueAtTime(0, ctx.currentTime);
+                this._gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 1.5);
+                this._gain.connect(ctx.destination);
+
+                this._next = ctx.currentTime + 0.05;
+                this._drone(ctx);
+                this._sched(ctx);
             },
 
-            pause()  { this.el.pause(); },
-            resume() { if (SFX.enabled) this.el.play().catch(() => {}); },
-            stop()   { this.el.pause(); this.el.currentTime = 0; }
+            /* ── look-ahead scheduler (rock-solid timing) ── */
+            _sched(ctx) {
+                if (!this._playing) return;
+                const eighth = 60 / this._bpm / 2;
+
+                while (this._next < ctx.currentTime + 0.12) {
+                    const freq = this._arp[this._step];
+                    this._noteArp(ctx, freq, this._next);
+
+                    if (this._step % 8 === 0) this._kick(ctx, this._next, 0.08);
+                    if (this._step % 8 === 4) this._kick(ctx, this._next, 0.04);
+
+                    this._step = (this._step + 1) % this._arp.length;
+                    this._next += eighth;
+                }
+                this._tid = setTimeout(() => this._sched(ctx), 25);
+            },
+
+            /* ── arpeggio note ── */
+            _noteArp(ctx, freq, t) {
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                o.type = 'sine';
+                o.frequency.value = freq;
+                g.gain.setValueAtTime(0.11, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+                o.connect(g).connect(this._gain);
+                o.start(t);
+                o.stop(t + 0.30);
+
+                // gentle octave shimmer
+                const o2 = ctx.createOscillator();
+                const g2 = ctx.createGain();
+                o2.type = 'sine';
+                o2.frequency.value = freq * 2;
+                g2.gain.setValueAtTime(0.02, t);
+                g2.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+                o2.connect(g2).connect(this._gain);
+                o2.start(t);
+                o2.stop(t + 0.20);
+            },
+
+            /* ── soft sine kick on down-beats ── */
+            _kick(ctx, t, vol) {
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                o.type = 'sine';
+                o.frequency.setValueAtTime(120, t);
+                o.frequency.exponentialRampToValueAtTime(35, t + 0.08);
+                g.gain.setValueAtTime(vol, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+                o.connect(g).connect(this._gain);
+                o.start(t);
+                o.stop(t + 0.15);
+            },
+
+            /* ── bass drone + high pad (continuous) ── */
+            _drone(ctx) {
+                const now = ctx.currentTime;
+
+                // Warm bass: two detuned sines through low-pass
+                [65.41, 65.82].forEach(f => {
+                    const o = ctx.createOscillator();
+                    const lp = ctx.createBiquadFilter();
+                    const g = ctx.createGain();
+                    o.type = 'sine'; o.frequency.value = f;
+                    lp.type = 'lowpass'; lp.frequency.value = 180;
+                    g.gain.value = 0.09;
+                    o.connect(lp).connect(g).connect(this._gain);
+                    o.start(now);
+                    this._live.push(o);
+                });
+
+                // Ethereal high pad: triangle C5 + G5
+                [523.25, 783.99].forEach(f => {
+                    const o = ctx.createOscillator();
+                    const g = ctx.createGain();
+                    o.type = 'triangle'; o.frequency.value = f;
+                    g.gain.value = 0.018;
+                    o.connect(g).connect(this._gain);
+                    o.start(now);
+                    this._live.push(o);
+                });
+            },
+
+            stop() {
+                if (!this._playing) return;
+                this._playing = false;
+                if (this._tid) { clearTimeout(this._tid); this._tid = null; }
+                this._live.forEach(n => { try { n.stop(); } catch (_) {} });
+                this._live = [];
+                if (this._gain) {
+                    try { this._gain.disconnect(); } catch (_) {}
+                    this._gain = null;
+                }
+            },
+
+            pause()  { this.stop(); },
+            resume() { if (SFX.enabled) this.play(); }
         };
 
         // Game State Management

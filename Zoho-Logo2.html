@@ -91,24 +91,18 @@
             display: block;
         }
 
-        /* When game is active, body fills viewport exactly */
-        body.game-active {
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
-        }
-
-        body.game-active .container {
-            height: 100%;
-            min-height: 0;
-            align-items: stretch;
-        }
+        /* Game screen = fixed fullscreen overlay — no height chain needed */
+        body.game-active { overflow: hidden; }
 
         #gameScreen.active {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            min-height: 0;
+            padding: 8px;
+            background: linear-gradient(135deg, #F7EACF 0%, #EFE0C3 52%, #ffeac8 100%);
+            overflow: hidden;
         }
 
         @keyframes fadeIn {
@@ -431,27 +425,27 @@
             line-height: 1.4;
         }
 
-        /* Logo Options Grid - 2x2 Layout, fills remaining viewport */
+        /* Logo Options Grid - 2x2 fills ALL remaining viewport space */
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 0;
+            gap: 8px;
             flex: 1;
             min-height: 0;
+            overflow: hidden;
         }
 
         .option-card {
             background: var(--surface);
             border: 3px solid var(--border-strong);
-            border-radius: 20px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 24px rgba(28, 35, 90, 0.14);
+            box-shadow: 0 6px 16px rgba(28, 35, 90, 0.12);
             display: flex;
             flex-direction: column;
             min-height: 0;
@@ -499,14 +493,15 @@
         .option-media {
             width: 100%;
             background: #ffffff;
-            border-radius: 14px;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 6px;
             box-shadow: inset 0 0 0 1px rgba(35, 44, 114, 0.12);
             flex: 1;
             min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         @keyframes correctPulse {
@@ -522,26 +517,24 @@
 
         .option-logo {
             display: block;
-            width: 100%;
-            height: 100%;
+            max-width: 100%;
             max-height: 100%;
+            width: auto;
+            height: auto;
             object-fit: contain;
-            margin-bottom: 0;
             filter: brightness(1.03) saturate(1.05);
         }
 
         .option-logo-fallback {
             width: 100%;
             height: 100%;
-            max-height: 100%;
-            margin-bottom: 0;
             border: 2px dashed rgba(35, 44, 114, 0.34);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent);
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 0.06em;
             background: #ffffff;
@@ -602,29 +595,29 @@
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
         }
 
         .stat-item {
             background: var(--surface-soft);
-            padding: 20px;
-            border-radius: 15px;
+            padding: 14px;
+            border-radius: 12px;
             border: 2px solid var(--border-soft);
         }
 
         .stat-value {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--accent);
             font-family: 'Press Start 2P', cursive;
         }
 
         .stat-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-top: 10px;
+            margin-top: 6px;
             opacity: 0.8;
         }
 
@@ -779,66 +772,70 @@
             /* Landing / end screens */
             .logo-title { font-size: 2rem; }
             .subtitle { font-size: 1.1rem; }
-            .game-info { padding: 16px; }
-            .end-title { font-size: 1.8rem; }
-            .end-card { padding: 20px 18px; }
+            .game-info { padding: 14px; }
+            .end-title { font-size: 1.5rem; }
+            .end-card { padding: 16px 14px; }
             .end-actions { gap: 10px; }
-            .end-actions .btn { width: 100%; }
-            .stat-value { font-size: 1.6rem; }
-            .entry-card { padding: 20px; }
+            .end-actions .btn { width: 100%; padding: 13px; font-size: 1rem; }
+            .stat-value { font-size: 1.4rem; }
+            .stat-item { padding: 12px 8px; }
+            .stats { gap: 10px; margin-bottom: 10px; }
+            .entry-card { padding: 18px; }
+            .container { padding: 10px; }
 
             /* Audio toggle */
-            .audio-toggle { width: 36px; height: 36px; font-size: 1rem; top: 6px; right: 6px; }
+            .audio-toggle { width: 34px; height: 34px; font-size: 0.95rem; top: 5px; right: 5px; }
 
-            /* Game screen */
-            .container { padding: 6px; }
-            .game-hud { padding: 6px 10px; margin-bottom: 6px; border-radius: 12px; }
-            .score { font-size: 1.2rem; }
-            .life { font-size: 1.2rem; }
-            .timer-container { width: 44px; height: 44px; }
-            .timer-circle { width: 44px; height: 44px; }
-            .timer-text { font-size: 1.1rem; }
-            .question-section { margin-bottom: 4px; }
-            .question-counter { font-size: 0.85rem; margin-bottom: 2px; }
-            .question-text { font-size: 1.05rem; margin-bottom: 4px; }
-            .progress-bar { margin-bottom: 6px; height: 5px; }
-            .options-grid { gap: 6px; }
-            .option-card { padding: 5px; border-width: 2px; border-radius: 12px; }
-            .option-media { padding: 4px; border-radius: 8px; }
-        }
-
-        /* Small mobile */
-        @media (max-width: 400px) {
-            .container { padding: 4px; }
-            .game-hud { padding: 4px 8px; margin-bottom: 4px; }
-            .score { font-size: 1rem; }
-            .life { font-size: 1rem; }
-            .timer-container { width: 36px; height: 36px; }
-            .timer-circle { width: 36px; height: 36px; }
-            .timer-text { font-size: 0.9rem; }
-            .question-counter { font-size: 0.75rem; }
-            .question-text { font-size: 0.9rem; margin-bottom: 3px; }
-            .progress-bar { margin-bottom: 4px; height: 3px; }
-            .options-grid { gap: 4px; }
-            .option-card { padding: 3px; border-radius: 10px; }
+            /* Game screen (fixed overlay) */
+            #gameScreen.active { padding: 5px; }
+            .game-hud { padding: 5px 10px; margin-bottom: 4px; border-radius: 10px; }
+            .score { font-size: 1.1rem; }
+            .life { font-size: 1.1rem; }
+            .timer-container { width: 40px; height: 40px; }
+            .timer-text { font-size: 0.95rem; }
+            .question-section { margin-bottom: 3px; }
+            .question-counter { font-size: 0.8rem; margin-bottom: 1px; }
+            .question-text { font-size: 0.95rem; margin-bottom: 3px; }
+            .progress-bar { margin-bottom: 4px; height: 4px; }
+            .options-grid { gap: 5px; }
+            .option-card { padding: 3px; border-width: 2px; border-radius: 10px; }
             .option-media { padding: 3px; border-radius: 6px; }
-            .end-card { padding: 16px 14px; }
-            .end-title { font-size: 1.5rem; }
-            .stat-value { font-size: 1.3rem; }
-            .audio-toggle { width: 30px; height: 30px; font-size: 0.85rem; }
         }
 
-        /* Landscape mobile */
-        @media (max-height: 500px) {
-            .container { padding: 3px; }
+        /* Small mobile (≤ 400px) */
+        @media (max-width: 400px) {
+            #gameScreen.active { padding: 3px; }
             .game-hud { padding: 3px 6px; margin-bottom: 3px; }
-            .question-section { margin-bottom: 2px; }
-            .question-counter { display: none; }
+            .score { font-size: 0.9rem; }
+            .life { font-size: 0.9rem; }
+            .timer-container { width: 32px; height: 32px; }
+            .timer-text { font-size: 0.8rem; }
+            .question-counter { font-size: 0.7rem; }
             .question-text { font-size: 0.85rem; margin-bottom: 2px; }
-            .progress-bar { margin-bottom: 3px; height: 2px; }
+            .progress-bar { height: 3px; margin-bottom: 2px; }
             .options-grid { gap: 3px; }
+            .option-card { padding: 2px; border-radius: 8px; }
+            .option-media { padding: 2px; border-radius: 4px; }
+
+            .end-card { padding: 12px 10px; }
+            .end-title { font-size: 1.3rem; }
+            .stat-value { font-size: 1.1rem; }
+            .stat-item { padding: 8px 6px; }
+            .container { padding: 6px; }
+            .audio-toggle { width: 28px; height: 28px; font-size: 0.8rem; }
+        }
+
+        /* Landscape / very short screens */
+        @media (max-height: 500px) {
+            #gameScreen.active { padding: 2px; }
+            .game-hud { padding: 2px 6px; margin-bottom: 2px; }
+            .question-section { margin-bottom: 1px; }
+            .question-counter { display: none; }
+            .question-text { font-size: 0.8rem; margin-bottom: 1px; }
+            .progress-bar { margin-bottom: 2px; height: 2px; }
+            .options-grid { gap: 2px; }
             .option-card { padding: 2px; }
-            .option-media { padding: 2px; }
+            .option-media { padding: 1px; }
         }
 
         /* Loading animation */

@@ -309,10 +309,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 20px;
+            padding: 10px 16px;
             background: var(--surface-strong);
-            border-radius: 20px;
-            margin-bottom: 14px;
+            border-radius: 16px;
+            margin-bottom: 10px;
             backdrop-filter: blur(10px);
             border: 2px solid var(--border-soft);
             box-shadow: var(--shadow-soft);
@@ -365,11 +365,13 @@
         /* Timer Circle */
         .timer-container {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
         }
 
         .timer-circle {
+            width: 100%;
+            height: 100%;
             transform: rotate(-90deg);
         }
 
@@ -411,7 +413,7 @@
         /* Question Area */
         .question-section {
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
 
         .question-counter {
@@ -422,10 +424,10 @@
         }
 
         .question-text {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             line-height: 1.4;
         }
 
@@ -560,7 +562,7 @@
             background: var(--surface-strong);
             border: 2px solid var(--border-strong);
             border-radius: 20px;
-            padding: 50px;
+            padding: 36px 30px;
             max-width: 600px;
             margin: 0 auto;
             backdrop-filter: blur(10px);
@@ -629,15 +631,17 @@
         /* Audio Toggle */
         .audio-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 8px;
+            right: 8px;
             background: var(--surface-soft);
             border: 2px solid var(--border-strong);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
+            font-size: 1.2rem;
+            z-index: 100;
             justify-content: center;
             cursor: pointer;
             font-size: 1.5rem;
@@ -750,7 +754,7 @@
             height: 8px;
             background: rgba(35, 44, 114, 0.2);
             border-radius: 10px;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             overflow: hidden;
         }
 
@@ -776,55 +780,64 @@
             .logo-title { font-size: 2rem; }
             .subtitle { font-size: 1.1rem; }
             .game-info { padding: 16px; }
-            .end-title { font-size: 2rem; }
-            .end-card { padding: 24px; }
-            .end-actions .btn { width: min(100%, 320px); }
-            .stat-value { font-size: 1.8rem; }
-            .entry-card { padding: 24px; }
+            .end-title { font-size: 1.8rem; }
+            .end-card { padding: 20px 18px; }
+            .end-actions { gap: 10px; }
+            .end-actions .btn { width: 100%; }
+            .stat-value { font-size: 1.6rem; }
+            .entry-card { padding: 20px; }
+
+            /* Audio toggle */
+            .audio-toggle { width: 36px; height: 36px; font-size: 1rem; top: 6px; right: 6px; }
 
             /* Game screen */
-            .container { padding: 10px; }
-            .game-hud { padding: 8px 12px; margin-bottom: 8px; }
-            .score { font-size: 1.4rem; }
-            .life { font-size: 1.4rem; }
-            .timer-container { transform: scale(0.7); transform-origin: center; }
-            .question-section { margin-bottom: 6px; }
-            .question-counter { font-size: 0.9rem; margin-bottom: 2px; }
-            .question-text { font-size: 1.1rem; margin-bottom: 6px; }
-            .progress-bar { margin-bottom: 8px; height: 6px; }
-            .options-grid { gap: 8px; }
-            .option-card { padding: 6px; border-width: 2px; border-radius: 14px; }
-            .option-media { padding: 5px; border-radius: 10px; }
+            .container { padding: 6px; }
+            .game-hud { padding: 6px 10px; margin-bottom: 6px; border-radius: 12px; }
+            .score { font-size: 1.2rem; }
+            .life { font-size: 1.2rem; }
+            .timer-container { width: 44px; height: 44px; }
+            .timer-circle { width: 44px; height: 44px; }
+            .timer-text { font-size: 1.1rem; }
+            .question-section { margin-bottom: 4px; }
+            .question-counter { font-size: 0.85rem; margin-bottom: 2px; }
+            .question-text { font-size: 1.05rem; margin-bottom: 4px; }
+            .progress-bar { margin-bottom: 6px; height: 5px; }
+            .options-grid { gap: 6px; }
+            .option-card { padding: 5px; border-width: 2px; border-radius: 12px; }
+            .option-media { padding: 4px; border-radius: 8px; }
         }
 
         /* Small mobile */
         @media (max-width: 400px) {
-            .container { padding: 6px; }
-            .game-hud { padding: 6px 8px; margin-bottom: 6px; }
-            .score { font-size: 1.1rem; }
-            .life { font-size: 1.1rem; }
-            .timer-container { transform: scale(0.55); transform-origin: center; }
-            .timer-text { font-size: 1rem; }
-            .question-counter { font-size: 0.8rem; }
-            .question-text { font-size: 0.95rem; margin-bottom: 4px; }
-            .progress-bar { margin-bottom: 6px; height: 4px; }
-            .options-grid { gap: 5px; }
-            .option-card { padding: 4px; border-radius: 10px; }
-            .option-media { padding: 3px; border-radius: 8px; }
-            .end-card { padding: 18px; }
-            .stat-value { font-size: 1.5rem; }
-        }
-
-        /* Landscape mobile (short height) */
-        @media (max-height: 500px) {
             .container { padding: 4px; }
             .game-hud { padding: 4px 8px; margin-bottom: 4px; }
-            .question-section { margin-bottom: 4px; }
-            .question-counter { display: none; }
-            .question-text { font-size: 0.9rem; margin-bottom: 4px; }
+            .score { font-size: 1rem; }
+            .life { font-size: 1rem; }
+            .timer-container { width: 36px; height: 36px; }
+            .timer-circle { width: 36px; height: 36px; }
+            .timer-text { font-size: 0.9rem; }
+            .question-counter { font-size: 0.75rem; }
+            .question-text { font-size: 0.9rem; margin-bottom: 3px; }
             .progress-bar { margin-bottom: 4px; height: 3px; }
             .options-grid { gap: 4px; }
-            .option-card { padding: 3px; }
+            .option-card { padding: 3px; border-radius: 10px; }
+            .option-media { padding: 3px; border-radius: 6px; }
+            .end-card { padding: 16px 14px; }
+            .end-title { font-size: 1.5rem; }
+            .stat-value { font-size: 1.3rem; }
+            .audio-toggle { width: 30px; height: 30px; font-size: 0.85rem; }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 500px) {
+            .container { padding: 3px; }
+            .game-hud { padding: 3px 6px; margin-bottom: 3px; }
+            .question-section { margin-bottom: 2px; }
+            .question-counter { display: none; }
+            .question-text { font-size: 0.85rem; margin-bottom: 2px; }
+            .progress-bar { margin-bottom: 3px; height: 2px; }
+            .options-grid { gap: 3px; }
+            .option-card { padding: 2px; }
             .option-media { padding: 2px; }
         }
 
@@ -940,7 +953,7 @@
                 </div>
 
                 <div class="timer-container">
-                    <svg class="timer-circle" width="80" height="80">
+                    <svg class="timer-circle" viewBox="0 0 80 80" width="100%" height="100%">
                         <circle class="timer-bg" cx="40" cy="40" r="32"></circle>
                         <circle class="timer-progress" id="timerCircle" cx="40" cy="40" r="32" 
                                 stroke-dasharray="201" stroke-dashoffset="0"></circle>
@@ -973,7 +986,7 @@
             <div class="end-screen">
                 <div class="end-card">
                     <h1 class="end-title victory">VICTORY! 🏆</h1>
-                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--accent);">
+                    <p style="font-size: 1.3rem; margin-bottom: 16px; color: var(--accent);">
                         Congratulations, <span id="winnerName"></span>!
                     </p>
                     <div class="stats">
@@ -990,7 +1003,10 @@
                             <div class="stat-label">Accuracy</div>
                         </div>
                     </div>
-                    <button class="btn" onclick="game.restart()">PLAY AGAIN</button>
+                    <div class="end-actions">
+                        <button class="btn" onclick="game.restart()">PLAY AGAIN</button>
+                        <button class="btn btn-home" onclick="game.goHome()">HOME</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1000,7 +1016,7 @@
             <div class="end-screen">
                 <div class="end-card">
                     <h1 class="end-title defeat">GAME OVER</h1>
-                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--error);">
+                    <p style="font-size: 1.3rem; margin-bottom: 16px; color: var(--error);">
                         Better luck next time, <span id="loserName"></span>!
                     </p>
                     <div class="stats">
@@ -1338,8 +1354,8 @@
             }
         };
 
-        // ── Procedural Background Music (Web Audio API) ──────────
-        // 4-bar loop: Cm → Fm → Ab → G  |  100 BPM  |  8th-note arpeggio
+        // ── Fast-Paced Procedural Game Music (Web Audio API) ─────
+        // 4-bar loop: Em → C → D → B  |  145 BPM  |  16th-note arpeggios + driving bass + hi-hats
         const BGMusic = {
             _playing: false,
             _tid: null,
@@ -1347,17 +1363,19 @@
             _step: 0,
             _live: [],
             _gain: null,
-            _bpm: 100,
+            _bpm: 145,
 
-            // 32 eighth-notes = 4 bars @ 100 BPM ≈ 9.6 s loop
+            // 64 sixteenth-notes = 4 bars @ 145 BPM ≈ 6.6 s loop
             _arp: [
-                /* Bar 1 – Cm  */ 261.63, 311.13, 392.00, 523.25, 392.00, 311.13, 261.63, 196.00,
-                /* Bar 2 – Fm  */ 174.61, 207.65, 261.63, 349.23, 261.63, 207.65, 174.61, 261.63,
-                /* Bar 3 – Ab  */ 207.65, 261.63, 311.13, 415.30, 311.13, 261.63, 207.65, 311.13,
-                /* Bar 4 – G   */ 196.00, 246.94, 293.66, 392.00, 293.66, 246.94, 196.00, 293.66
+                /* Bar 1 – Em  */ 329.63,493.88,659.25,493.88, 329.63,659.25,493.88,329.63, 659.25,493.88,329.63,493.88, 659.25,329.63,493.88,659.25,
+                /* Bar 2 – C   */ 261.63,392.00,523.25,392.00, 261.63,523.25,392.00,261.63, 523.25,392.00,261.63,392.00, 523.25,261.63,392.00,523.25,
+                /* Bar 3 – D   */ 293.66,440.00,587.33,440.00, 293.66,587.33,440.00,293.66, 587.33,440.00,293.66,440.00, 587.33,293.66,440.00,587.33,
+                /* Bar 4 – B   */ 246.94,369.99,493.88,369.99, 246.94,493.88,369.99,246.94, 493.88,369.99,246.94,369.99, 493.88,246.94,369.99,493.88
             ],
+            // Bass notes per bar (root, repeats every 16 steps)
+            _bass: [82.41, 65.41, 73.42, 61.74],
 
-            init() { /* no-op, setup happens in play() */ },
+            init() {},
 
             play() {
                 if (this._playing || !SFX.enabled) return;
@@ -1365,108 +1383,147 @@
                 this._playing = true;
                 this._step = 0;
 
-                // Master bus
                 this._gain = ctx.createGain();
                 this._gain.gain.setValueAtTime(0, ctx.currentTime);
-                this._gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 1.5);
+                this._gain.gain.linearRampToValueAtTime(0.52, ctx.currentTime + 0.8);
                 this._gain.connect(ctx.destination);
 
                 this._next = ctx.currentTime + 0.05;
-                this._drone(ctx);
+                this._startBass(ctx);
                 this._sched(ctx);
             },
 
-            /* ── look-ahead scheduler (rock-solid timing) ── */
+            /* ── look-ahead scheduler ── */
             _sched(ctx) {
                 if (!this._playing) return;
-                const eighth = 60 / this._bpm / 2;
+                const sixteenth = 60 / this._bpm / 4;
 
                 while (this._next < ctx.currentTime + 0.12) {
                     const freq = this._arp[this._step];
                     this._noteArp(ctx, freq, this._next);
 
-                    if (this._step % 8 === 0) this._kick(ctx, this._next, 0.08);
-                    if (this._step % 8 === 4) this._kick(ctx, this._next, 0.04);
+                    // Kick on beats 1 & 3 of each bar (steps 0, 8)
+                    if (this._step % 16 === 0) this._kick(ctx, this._next, 0.14);
+                    if (this._step % 16 === 8) this._kick(ctx, this._next, 0.09);
+                    // Snare on beats 2 & 4 (steps 4, 12)
+                    if (this._step % 16 === 4 || this._step % 16 === 12) this._snare(ctx, this._next);
+                    // Hi-hat on every other 16th
+                    if (this._step % 2 === 0) this._hat(ctx, this._next);
 
                     this._step = (this._step + 1) % this._arp.length;
-                    this._next += eighth;
+                    this._next += sixteenth;
                 }
-                this._tid = setTimeout(() => this._sched(ctx), 25);
+                this._tid = setTimeout(() => this._sched(ctx), 20);
             },
 
-            /* ── arpeggio note ── */
+            /* ── fast staccato arp note ── */
             _noteArp(ctx, freq, t) {
                 const o = ctx.createOscillator();
                 const g = ctx.createGain();
-                o.type = 'sine';
+                o.type = 'square';
                 o.frequency.value = freq;
-                g.gain.setValueAtTime(0.11, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
-                o.connect(g).connect(this._gain);
+                // Bandpass to tame the square wave harshness
+                const bp = ctx.createBiquadFilter();
+                bp.type = 'bandpass'; bp.frequency.value = freq; bp.Q.value = 2;
+                g.gain.setValueAtTime(0.07, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+                o.connect(bp).connect(g).connect(this._gain);
                 o.start(t);
-                o.stop(t + 0.30);
-
-                // gentle octave shimmer
-                const o2 = ctx.createOscillator();
-                const g2 = ctx.createGain();
-                o2.type = 'sine';
-                o2.frequency.value = freq * 2;
-                g2.gain.setValueAtTime(0.02, t);
-                g2.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-                o2.connect(g2).connect(this._gain);
-                o2.start(t);
-                o2.stop(t + 0.20);
+                o.stop(t + 0.10);
             },
 
-            /* ── soft sine kick on down-beats ── */
+            /* ── punchy kick ── */
             _kick(ctx, t, vol) {
                 const o = ctx.createOscillator();
                 const g = ctx.createGain();
                 o.type = 'sine';
-                o.frequency.setValueAtTime(120, t);
-                o.frequency.exponentialRampToValueAtTime(35, t + 0.08);
+                o.frequency.setValueAtTime(160, t);
+                o.frequency.exponentialRampToValueAtTime(30, t + 0.06);
                 g.gain.setValueAtTime(vol, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.10);
                 o.connect(g).connect(this._gain);
                 o.start(t);
-                o.stop(t + 0.15);
+                o.stop(t + 0.12);
             },
 
-            /* ── bass drone + high pad (continuous) ── */
-            _drone(ctx) {
+            /* ── noise snare ── */
+            _snare(ctx, t) {
+                const bufSize = ctx.sampleRate * 0.06;
+                const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                const hp = ctx.createBiquadFilter();
+                hp.type = 'highpass'; hp.frequency.value = 3000;
+                const g = ctx.createGain();
+                g.gain.setValueAtTime(0.10, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+                src.connect(hp).connect(g).connect(this._gain);
+                src.start(t);
+                src.stop(t + 0.07);
+            },
+
+            /* ── hi-hat (short noise burst) ── */
+            _hat(ctx, t) {
+                const bufSize = ctx.sampleRate * 0.02;
+                const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                const hp = ctx.createBiquadFilter();
+                hp.type = 'highpass'; hp.frequency.value = 8000;
+                const g = ctx.createGain();
+                g.gain.setValueAtTime(0.04, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.02);
+                src.connect(hp).connect(g).connect(this._gain);
+                src.start(t);
+                src.stop(t + 0.03);
+            },
+
+            /* ── driving bass (continuous, follows chord roots) ── */
+            _startBass(ctx) {
                 const now = ctx.currentTime;
+                // Pulsing sub-bass that follows chord changes
+                const o = ctx.createOscillator();
+                const o2 = ctx.createOscillator();
+                const lp = ctx.createBiquadFilter();
+                const g = ctx.createGain();
+                o.type = 'sawtooth';
+                o2.type = 'sine';
+                o.frequency.value = this._bass[0];
+                o2.frequency.value = this._bass[0];
+                lp.type = 'lowpass'; lp.frequency.value = 140;
+                g.gain.value = 0.12;
+                o.connect(lp);
+                o2.connect(lp);
+                lp.connect(g).connect(this._gain);
+                o.start(now);
+                o2.start(now);
+                this._live.push(o, o2);
+                this._bassOsc = o;
+                this._bassOsc2 = o2;
 
-                // Warm bass: two detuned sines through low-pass
-                [65.41, 65.82].forEach(f => {
-                    const o = ctx.createOscillator();
-                    const lp = ctx.createBiquadFilter();
-                    const g = ctx.createGain();
-                    o.type = 'sine'; o.frequency.value = f;
-                    lp.type = 'lowpass'; lp.frequency.value = 180;
-                    g.gain.value = 0.09;
-                    o.connect(lp).connect(g).connect(this._gain);
-                    o.start(now);
-                    this._live.push(o);
-                });
-
-                // Ethereal high pad: triangle C5 + G5
-                [523.25, 783.99].forEach(f => {
-                    const o = ctx.createOscillator();
-                    const g = ctx.createGain();
-                    o.type = 'triangle'; o.frequency.value = f;
-                    g.gain.value = 0.018;
-                    o.connect(g).connect(this._gain);
-                    o.start(now);
-                    this._live.push(o);
-                });
+                // Schedule bass note changes per bar
+                this._bassInterval = setInterval(() => {
+                    if (!this._playing) return;
+                    const bar = Math.floor(this._step / 16) % 4;
+                    const f = this._bass[bar];
+                    if (this._bassOsc) this._bassOsc.frequency.value = f;
+                    if (this._bassOsc2) this._bassOsc2.frequency.value = f;
+                }, 100);
             },
 
             stop() {
                 if (!this._playing) return;
                 this._playing = false;
                 if (this._tid) { clearTimeout(this._tid); this._tid = null; }
+                if (this._bassInterval) { clearInterval(this._bassInterval); this._bassInterval = null; }
                 this._live.forEach(n => { try { n.stop(); } catch (_) {} });
                 this._live = [];
+                this._bassOsc = null;
+                this._bassOsc2 = null;
                 if (this._gain) {
                     try { this._gain.disconnect(); } catch (_) {}
                     this._gain = null;

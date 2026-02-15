@@ -30,7 +30,6 @@ USE_FIREBASE = bool(FIREBASE_CREDENTIALS)
 USE_POSTGRES = (not USE_FIREBASE) and DATABASE_URL.startswith("postgres")
 USE_SQLITE = (not USE_FIREBASE) and (not USE_POSTGRES)
 
-EMAIL_PATTERN = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 VALID_OUTCOMES = {"victory", "game_over"}
 DB_TIMEOUT_SECONDS = 30
 DB_BUSY_TIMEOUT_MS = 7000
@@ -81,7 +80,7 @@ def init_db() -> None:
                     CREATE TABLE IF NOT EXISTS game_results (
                         id SERIAL PRIMARY KEY,
                         player_name TEXT NOT NULL,
-                        player_email TEXT NOT NULL,
+                        player_email TEXT DEFAULT '',
                         score INTEGER NOT NULL,
                         correct_count INTEGER NOT NULL,
                         total_answered INTEGER NOT NULL,
@@ -114,7 +113,7 @@ def init_db() -> None:
                 CREATE TABLE IF NOT EXISTS game_results (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     player_name TEXT NOT NULL,
-                    player_email TEXT NOT NULL,
+                    player_email TEXT DEFAULT '',
                     score INTEGER NOT NULL,
                     correct_count INTEGER NOT NULL,
                     total_answered INTEGER NOT NULL,
@@ -138,14 +137,13 @@ def init_db() -> None:
 # Firestore helpers
 # ---------------------------------------------------------------------------
 
-def _fs_insert(player_name, player_email, score, correct_count,
+def _fs_insert(player_name, score, correct_count,
                total_answered, accuracy, outcome, created_at):
     """Insert a document into Firestore and return a numeric ID."""
     numeric_id = int(time.time() * 1_000_000)  # microsecond-precision ID
     doc = {
         "id": numeric_id,
         "player_name": player_name,
-        "player_email": player_email,
         "score": score,
         "correct_count": correct_count,
         "total_answered": total_answered,
@@ -163,7 +161,6 @@ def _fs_to_api(doc_dict):
     return {
         "id": d.get("id", 0),
         "playerName": d.get("player_name", ""),
-        "playerEmail": d.get("player_email", ""),
         "score": d.get("score", 0),
         "correctCount": d.get("correct_count", 0),
         "totalAnswered": d.get("total_answered", 0),
@@ -280,10 +277,10 @@ def with_db_retry(operation):
 # Unified database operations
 # ---------------------------------------------------------------------------
 
-def db_insert_result(player_name, player_email, score, correct_count,
+def db_insert_result(player_name, score, correct_count,
                      total_answered, accuracy, outcome, created_at):
     """Insert a game result and return the new ID."""
-    params = (player_name, player_email, score, correct_count,
+    params = (player_name, score, correct_count,
               total_answered, accuracy, outcome, created_at)
 
     if USE_FIREBASE:
@@ -297,11 +294,11 @@ def db_insert_result(player_name, player_email, score, correct_count,
                     conn,
                     """
                     INSERT INTO game_results (
-                        player_name, player_email, score,
+                        player_name, score,
                         correct_count, total_answered, accuracy,
                         outcome, created_at
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id
                     """,
                     params,
@@ -316,11 +313,11 @@ def db_insert_result(player_name, player_email, score, correct_count,
             cursor = conn.execute(
                 """
                 INSERT INTO game_results (
-                    player_name, player_email, score,
+                    player_name, score,
                     correct_count, total_answered, accuracy,
                     outcome, created_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
                 params,
             )
@@ -342,7 +339,6 @@ def db_list_results(sort_mode, limit_val):
         SELECT
             id,
             player_name  AS "playerName",
-            player_email AS "playerEmail",
             score,
             correct_count  AS "correctCount",
             total_answered AS "totalAnswered",
@@ -560,7 +556,6 @@ class QuizHandler(SimpleHTTPRequestHandler):
             payload = read_json_body(self)
 
             player_name = str(payload.get("playerName", "")).strip()
-            player_email = str(payload.get("playerEmail", "")).strip()
             score = parse_int_field(payload, "score", min_value=0)
             correct_count = parse_int_field(payload, "correctCount", min_value=0)
             total_answered = parse_int_field(payload, "totalAnswered", min_value=0)
@@ -568,8 +563,6 @@ class QuizHandler(SimpleHTTPRequestHandler):
 
             if len(player_name) < 2:
                 raise ValueError("playerName must be at least 2 characters")
-            if not EMAIL_PATTERN.match(player_email):
-                raise ValueError("playerEmail is invalid")
             if total_answered == 0 and correct_count > 0:
                 raise ValueError("correctCount cannot be greater than totalAnswered")
             if correct_count > total_answered:
@@ -581,7 +574,7 @@ class QuizHandler(SimpleHTTPRequestHandler):
             created_at = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
             result_id = db_insert_result(
-                player_name, player_email, score,
+                player_name, score,
                 correct_count, total_answered, accuracy,
                 outcome, created_at,
             )
@@ -589,7 +582,6 @@ class QuizHandler(SimpleHTTPRequestHandler):
             result = {
                 "id": result_id,
                 "playerName": player_name,
-                "playerEmail": player_email,
                 "score": score,
                 "correctCount": correct_count,
                 "totalAnswered": total_answered,

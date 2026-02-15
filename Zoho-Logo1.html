@@ -817,18 +817,12 @@
             <section id="userDetailsScreen" class="screen">
                 <div class="card">
                     <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.7rem;">Player Info</h2>
-                    <p style="color: var(--muted); margin: 8px 0 18px;">We’ll save your score with your name and email.</p>
+                    <p style="color: var(--muted); margin: 8px 0 18px;">We’ll save your score with your name.</p>
                     <form id="userForm" onsubmit="submitUserDetails(event)">
                         <div class="form-group">
                             <label for="userName">Name *</label>
                             <input type="text" id="userName" placeholder="Your name" required />
                             <div class="error-message" id="nameError">Please enter your name.</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="userEmail">Email *</label>
-                            <input type="email" id="userEmail" placeholder="you@example.com" required />
-                            <div class="error-message" id="emailError">Please enter a valid email.</div>
                         </div>
 
                         <div class="btn-group">
@@ -987,7 +981,6 @@
 
         let gameState = {
             userName: '',
-            userEmail: '',
             currentQuestion: 0,
             score: 0,
             lives: GAME_CONFIG.INITIAL_LIVES,
@@ -1073,7 +1066,6 @@
 
             saveGameResult({
                 name: gameState.userName,
-                email: gameState.userEmail,
                 finalScore: gameState.score,
                 accuracy,
                 questionsAttempted: gameState.totalAttempted,
@@ -1099,7 +1091,6 @@
 
             saveGameResult({
                 name: gameState.userName,
-                email: gameState.userEmail,
                 finalScore: gameState.score,
                 accuracy,
                 questionsAttempted: gameState.totalQuestions,
@@ -1126,9 +1117,7 @@
         function submitUserDetails(event) {
             event.preventDefault();
             const nameInput = document.getElementById('userName');
-            const emailInput = document.getElementById('userEmail');
             const nameError = document.getElementById('nameError');
-            const emailError = document.getElementById('emailError');
 
             let isValid = true;
             if (!nameInput.value.trim()) {
@@ -1140,23 +1129,12 @@
                 nameError.classList.remove('show');
             }
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailInput.value.trim() || !emailRegex.test(emailInput.value)) {
-                emailInput.classList.add('error');
-                emailError.classList.add('show');
-                isValid = false;
-            } else {
-                emailInput.classList.remove('error');
-                emailError.classList.remove('show');
-            }
-
             if (!isValid) {
-                showToast('Please fix the form ✍️', 'warning');
+                showToast('Please enter your name ✍️', 'warning');
                 return;
             }
 
             gameState.userName = nameInput.value.trim();
-            gameState.userEmail = emailInput.value.trim();
             startGame();
         }
 

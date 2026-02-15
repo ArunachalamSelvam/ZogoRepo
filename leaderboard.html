@@ -455,7 +455,6 @@
                         <tr>
                             <th>Rank</th>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Score</th>
                             <th>Correct</th>
                             <th>Accuracy</th>
@@ -537,7 +536,6 @@
             return {
                 id,
                 playerName: String(result.playerName ?? '').trim() || 'Unknown',
-                playerEmail: String(result.playerEmail ?? '').trim() || '-',
                 score: parseNumber(result.score),
                 correctCount: parseNumber(result.correctCount),
                 totalAnswered: parseNumber(result.totalAnswered),
@@ -617,7 +615,6 @@
                     <tr>
                         <td><span class="rank-badge ${rankClass}">#${rank}</span></td>
                         <td>${escapeHtml(result.playerName)}</td>
-                        <td>${escapeHtml(result.playerEmail)}</td>
                         <td><span class="score">${result.score}</span></td>
                         <td>${result.correctCount}/${result.totalAnswered}</td>
                         <td>${result.accuracy}%</td>

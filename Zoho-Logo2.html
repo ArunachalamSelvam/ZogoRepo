@@ -91,6 +91,20 @@
             display: block;
         }
 
+        /* End screens fill viewport and center their card */
+        #gameOverScreen.active,
+        #victoryScreen.active {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #F7EACF 0%, #EFE0C3 52%, #ffeac8 100%);
+            padding: 16px;
+            overflow-y: auto;
+        }
+
         /* Game screen = fixed fullscreen overlay — no height chain needed */
         body.game-active { overflow: hidden; }
 
@@ -100,6 +114,8 @@
             z-index: 50;
             display: flex;
             flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
             padding: 8px;
             background: linear-gradient(135deg, #F7EACF 0%, #EFE0C3 52%, #ffeac8 100%);
             overflow: hidden;
@@ -318,8 +334,13 @@
             gap: 10px;
         }
 
+        .hud-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
         .score {
-            font-size: 2rem;
+            font-size: clamp(1rem, 3vw, 2rem);
             font-weight: 700;
             color: var(--accent);
             font-family: 'Press Start 2P', cursive;
@@ -341,7 +362,7 @@
         }
 
         .life {
-            font-size: 2rem;
+            font-size: clamp(1rem, 3vw, 2rem);
             animation: heartBeat 1.5s infinite;
         }
 
@@ -463,14 +484,15 @@
             transition: opacity 0.3s ease;
         }
 
-        .option-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 16px 34px rgba(35, 44, 114, 0.24);
-        }
-
-        .option-card:hover::before {
-            opacity: 1;
+        @media (hover: hover) and (pointer: fine) {
+            .option-card:hover {
+                transform: translateY(-4px) scale(1.01);
+                border-color: var(--primary);
+                box-shadow: 0 12px 28px rgba(35, 44, 114, 0.20);
+            }
+            .option-card:hover::before {
+                opacity: 1;
+            }
         }
 
         .option-card.disabled {
@@ -517,10 +539,8 @@
 
         .option-logo {
             display: block;
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             filter: brightness(1.03) saturate(1.05);
         }
@@ -549,14 +569,16 @@
         /* End Screens */
         .end-screen {
             text-align: center;
+            width: 100%;
         }
 
         .end-card {
             background: var(--surface-strong);
             border: 2px solid var(--border-strong);
             border-radius: 20px;
-            padding: 36px 30px;
+            padding: clamp(16px, 4vw, 36px) clamp(14px, 3vw, 30px);
             max-width: 600px;
+            width: 100%;
             margin: 0 auto;
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-soft);
@@ -564,16 +586,22 @@
 
         .end-actions {
             display: flex;
-            justify-content: center;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin-top: 8px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .end-actions .btn {
+            width: 100%;
+            padding: clamp(10px, 2vw, 16px);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
         }
 
         .end-title {
             font-family: 'Press Start 2P', cursive;
-            font-size: 3rem;
-            margin-bottom: 30px;
+            font-size: clamp(1.4rem, 5vw, 3rem);
+            margin-bottom: 16px;
             animation: fadeInScale 0.8s ease;
         }
 
@@ -586,6 +614,11 @@
 
         .end-title.defeat {
             color: var(--error);
+        }
+
+        .end-message {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            margin-bottom: 12px;
         }
 
         @keyframes fadeInScale {
@@ -608,7 +641,7 @@
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 4vw, 2rem);
             font-weight: 700;
             color: var(--accent);
             font-family: 'Press Start 2P', cursive;
@@ -633,11 +666,10 @@
             height: 42px;
             display: flex;
             align-items: center;
-            font-size: 1.2rem;
-            z-index: 100;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            z-index: 100;
             transition: all 0.3s ease;
             z-index: 1000;
             box-shadow: 0 10px 24px rgba(28, 35, 90, 0.2);
@@ -762,26 +794,25 @@
 
         /* Tablet */
         @media (max-width: 1024px) {
-            .option-card { padding: 10px; }
-            .option-media { padding: 8px; }
+            .option-card { padding: 8px; }
+            .option-media { padding: 6px; }
             .question-text { font-size: 1.3rem; }
         }
 
         /* Mobile */
         @media (max-width: 768px) {
-            /* Landing / end screens */
+            /* Landing */
             .logo-title { font-size: 2rem; }
             .subtitle { font-size: 1.1rem; }
             .game-info { padding: 14px; }
-            .end-title { font-size: 1.5rem; }
-            .end-card { padding: 16px 14px; }
-            .end-actions { gap: 10px; }
-            .end-actions .btn { width: 100%; padding: 13px; font-size: 1rem; }
-            .stat-value { font-size: 1.4rem; }
-            .stat-item { padding: 12px 8px; }
-            .stats { gap: 10px; margin-bottom: 10px; }
             .entry-card { padding: 18px; }
             .container { padding: 10px; }
+
+            /* End screens */
+            .stat-item { padding: 10px 8px; }
+            .stats { gap: 8px; margin: 10px 0; }
+            #gameOverScreen.active,
+            #victoryScreen.active { padding: 12px; }
 
             /* Audio toggle */
             .audio-toggle { width: 34px; height: 34px; font-size: 0.95rem; top: 5px; right: 5px; }
@@ -789,15 +820,18 @@
             /* Game screen (fixed overlay) */
             #gameScreen.active { padding: 5px; }
             .game-hud { padding: 5px 10px; margin-bottom: 4px; border-radius: 10px; }
+            .hud-label { font-size: 0.85rem; }
+            .hud-item { gap: 5px; }
             .score { font-size: 1.1rem; }
             .life { font-size: 1.1rem; }
-            .timer-container { width: 40px; height: 40px; }
-            .timer-text { font-size: 0.95rem; }
+            .lives { gap: 4px; }
+            .timer-container { width: 36px; height: 36px; }
+            .timer-text { font-size: 0.9rem; }
             .question-section { margin-bottom: 3px; }
-            .question-counter { font-size: 0.8rem; margin-bottom: 1px; }
-            .question-text { font-size: 0.95rem; margin-bottom: 3px; }
-            .progress-bar { margin-bottom: 4px; height: 4px; }
-            .options-grid { gap: 5px; }
+            .question-counter { font-size: 0.75rem; margin-bottom: 1px; }
+            .question-text { font-size: 0.9rem; margin-bottom: 2px; }
+            .progress-bar { margin-bottom: 3px; height: 3px; }
+            .options-grid { gap: 4px; }
             .option-card { padding: 3px; border-width: 2px; border-radius: 10px; }
             .option-media { padding: 3px; border-radius: 6px; }
         }
@@ -805,22 +839,21 @@
         /* Small mobile (≤ 400px) */
         @media (max-width: 400px) {
             #gameScreen.active { padding: 3px; }
-            .game-hud { padding: 3px 6px; margin-bottom: 3px; }
-            .score { font-size: 0.9rem; }
-            .life { font-size: 0.9rem; }
-            .timer-container { width: 32px; height: 32px; }
-            .timer-text { font-size: 0.8rem; }
-            .question-counter { font-size: 0.7rem; }
-            .question-text { font-size: 0.85rem; margin-bottom: 2px; }
-            .progress-bar { height: 3px; margin-bottom: 2px; }
+            .game-hud { padding: 3px 6px; margin-bottom: 2px; }
+            .hud-label { font-size: 0.7rem; }
+            .hud-item { gap: 3px; }
+            .score { font-size: 0.85rem; }
+            .life { font-size: 0.85rem; }
+            .lives { gap: 2px; }
+            .timer-container { width: 28px; height: 28px; }
+            .timer-text { font-size: 0.75rem; }
+            .question-counter { font-size: 0.65rem; }
+            .question-text { font-size: 0.8rem; margin-bottom: 1px; }
+            .progress-bar { height: 2px; margin-bottom: 2px; }
             .options-grid { gap: 3px; }
             .option-card { padding: 2px; border-radius: 8px; }
             .option-media { padding: 2px; border-radius: 4px; }
 
-            .end-card { padding: 12px 10px; }
-            .end-title { font-size: 1.3rem; }
-            .stat-value { font-size: 1.1rem; }
-            .stat-item { padding: 8px 6px; }
             .container { padding: 6px; }
             .audio-toggle { width: 28px; height: 28px; font-size: 0.8rem; }
         }
@@ -945,7 +978,7 @@
 
             <div class="game-hud">
                 <div class="hud-item">
-                    <span style="font-size: 1.2rem; font-weight: 600;">SCORE:</span>
+                    <span class="hud-label">SCORE:</span>
                     <span class="score" id="score">0</span>
                 </div>
 
@@ -959,7 +992,7 @@
                 </div>
 
                 <div class="hud-item">
-                    <span style="font-size: 1.2rem; font-weight: 600;">LIVES:</span>
+                    <span class="hud-label">LIVES:</span>
                     <div class="lives" id="lives">
                         <span class="life">❤️</span>
                         <span class="life">❤️</span>
@@ -983,7 +1016,7 @@
             <div class="end-screen">
                 <div class="end-card">
                     <h1 class="end-title victory">VICTORY! 🏆</h1>
-                    <p style="font-size: 1.3rem; margin-bottom: 16px; color: var(--accent);">
+                    <p class="end-message" style="color: var(--accent);">
                         Congratulations, <span id="winnerName"></span>!
                     </p>
                     <div class="stats">
@@ -1013,7 +1046,7 @@
             <div class="end-screen">
                 <div class="end-card">
                     <h1 class="end-title defeat">GAME OVER</h1>
-                    <p style="font-size: 1.3rem; margin-bottom: 16px; color: var(--error);">
+                    <p class="end-message" style="color: var(--error);">
                         Better luck next time, <span id="loserName"></span>!
                     </p>
                     <div class="stats">
